@@ -81,9 +81,9 @@ void Flash_EraseSector(uint16_t SectorNum)
 
 /****************************************************************************
 * 功    能: 写入长度为length的32位数据
-* 入口参数：address：地址
-length： 数据长度
-data_32：要写入的数据指针 
+* 入口参数：   address：地址
+*             length： 数据长度
+*             data_32：要写入的数据指针 
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
@@ -119,9 +119,9 @@ void Flash_Write32BitDatas(uint32_t address, uint16_t length, int32_t *data_32)
 
 /****************************************************************************
 * 功    能: 读取长度为length的32位数据
-* 入口参数：address：地址
-length： 数据长度
-data_32  指向读出的数据
+* 入口参数： address：地址
+*           length： 数据长度
+*           data_32  指向读出的数据
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
@@ -138,9 +138,9 @@ void Flash_Read32BitDatas(uint32_t address, uint16_t length, int32_t *data_32)
 
 /****************************************************************************
 * 功    能: 写入长度为length的16位数据
-* 入口参数：address：地址
-length： 数据长度
-data_16：要写入的数据指针
+* 入口参数： address：地址
+*           length： 数据长度
+*           data_16：要写入的数据指针
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
@@ -176,9 +176,9 @@ void Flash_Write16BitDatas(uint32_t address, uint16_t length, int16_t *data_16)
 
 /****************************************************************************
 * 功    能: 读取长度为length的16位数据
-* 入口参数：address：地址
-length： 数据长度
-data_16  指向读出的数据
+* 入口参数： address：地址
+*           length： 数据长度
+*           data_16  指向读出的数据
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
@@ -195,9 +195,9 @@ void Flash_Read16BitDatas(uint32_t address, uint16_t length, int16_t *data_16)
 
 /****************************************************************************
 * 功    能: 写入长度为length的8位数据
-* 入口参数：address：地址
-length： 数据长度
-data_8：要写入的数据指针
+* 入口参数： address：地址
+*           length： 数据长度
+*           data_8：要写入的数据指针
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
@@ -234,8 +234,8 @@ void Flash_Write8BitDatas(uint32_t address, uint16_t length, int8_t *data_8)
 /****************************************************************************
 * 功    能: 读取长度为length的8位数据
 * 入口参数：  address：地址
-*           length： 数据长度
-*           data_8  指向读出的数据
+*            length： 数据长度
+*            data_8  指向读出的数据
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
