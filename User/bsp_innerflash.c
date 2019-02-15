@@ -83,7 +83,7 @@ void Flash_EraseSector(uint16_t SectorNum)
 * 功    能: 写入长度为length的32位数据
 * 入口参数：address：地址
 length： 数据长度
-data_32：要写入的数据指针
+data_32：要写入的数据指针 
 * 出口参数：无
 * 说    明：无
 * 调用方法：无
