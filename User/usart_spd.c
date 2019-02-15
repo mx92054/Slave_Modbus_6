@@ -170,7 +170,7 @@ void SPD_Task(void)
     wReg[84]--;
   }
 
-  wReg[153]++ ;
+  wReg[153]++;
   SPD_bRecv = 0;
   SPD_curptr = 0;
 }

@@ -20,6 +20,7 @@
 #include "usart_alt.h"
 #include "usart_dpt.h"
 #include "gpio.h"
+#include "bsp_innerflash.h"
 
 extern short wReg[];
 extern u8 bChanged;
@@ -36,6 +37,8 @@ int main(void)
 
 	SysTick_Init();
 	GPIO_Config();
+	//InternalFlashRead(wReg, 200);
+	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg) ;
 
 	Modbus_init();
 	CPT_Init();
@@ -64,9 +67,11 @@ int main(void)
 		{
 			IWDG_Feed();
 			LOGGLE_LED2;
+			if (bSaved)
+				Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg) ;
 		}
 
-		if (GetTimer(2) && bChanged == 1)
+		if (GetTimer(2))
 		{
 			if (bChanged == 1)
 				VAN_TransData();
@@ -76,7 +81,6 @@ int main(void)
 		if (GetTimer(1))
 		{
 			CPT_TxCmd();
-			SPD_TxCmd();
 			DPT_TxCmd();
 			ALT_TxCmd();
 		}

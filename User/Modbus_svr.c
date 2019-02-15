@@ -134,6 +134,9 @@ void Modbus_init(void)
 		bSaved = 1;
 	}
 
+	//BAUDRATE = 1152 ;
+	//ADDRESS = 1 ;
+
 	MODBUS_NVIC_Configuration();
 	MODBUS_Config(BAUDRATE * 100);
 

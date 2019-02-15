@@ -46,3 +46,4 @@
 ..\..\output\main.o: ..\..\User\usart_alt.h
 ..\..\output\main.o: ..\..\User\usart_dpt.h
 ..\..\output\main.o: ..\..\User\gpio.h
+..\..\output\main.o: ..\..\User\bsp_innerflash.h
