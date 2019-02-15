@@ -115,6 +115,8 @@ void Flash_Write32BitDatas(uint32_t address, uint16_t length, int32_t *data_32)
     }
   }
   FLASH_Lock(); //读FLASH不需要FLASH处于解锁状态。
+
+  add line
 }
 
 /****************************************************************************
