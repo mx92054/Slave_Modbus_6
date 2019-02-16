@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp
+--cpu Cortex-M4.fp
 "..\..\output\startup_stm32f429_439xx.o"
 "..\..\output\system_stm32f4xx.o"
 "..\..\output\misc.o"
@@ -48,9 +48,8 @@
 "..\..\output\bsp_innerflash.o"
 "..\..\output\usart_cpt.o"
 "..\..\output\usart_van.o"
-"..\..\output\usart_spd.o"
 "..\..\output\usart_alt.o"
-"..\..\output\usart_dpt.o"
+"..\..\output\usart_spd1.o"
 --library_type=microlib --strict --scatter "..\..\Output\Template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

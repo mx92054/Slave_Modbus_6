@@ -14,11 +14,7 @@
 #include "stm32f4xx.h"
 #include "SysTick.h"
 #include "Modbus_svr.h"
-#include "usart_cpt.h"
-#include "usart_van.h"
-#include "usart_spd.h"
-#include "usart_alt.h"
-#include "usart_dpt.h"
+#include "usart_spd1.h"
 #include "gpio.h"
 #include "bsp_innerflash.h"
 
@@ -37,15 +33,10 @@ int main(void)
 
 	SysTick_Init();
 	GPIO_Config();
-	//InternalFlashRead(wReg, 200);
-	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg) ;
+	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg);
 
 	Modbus_init();
-	CPT_Init();
-	VAN_Init();
-	SPD_Init();
-	DPT_Init();
-	ALT_Init();
+	SPD1_Init();
 
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
@@ -57,37 +48,19 @@ int main(void)
 	while (1)
 	{
 		Modbus_task();
-		CPT_Task();
-		VAN_Task();
-		SPD_Task();
-		DPT_Task();
-		ALT_Task();
+		SPD1_Task();
 
 		if (GetTimer(0))
 		{
 			IWDG_Feed();
 			LOGGLE_LED2;
 			if (bSaved)
-				Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg) ;
+				Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg);
 		}
 
 		if (GetTimer(2))
 		{
-			if (bChanged == 1)
-				VAN_TransData();
-			SPD_TxCmd();
-		}
-
-		if (GetTimer(1))
-		{
-			CPT_TxCmd();
-			DPT_TxCmd();
-			ALT_TxCmd();
-		}
-
-		if (GetTimer(3))
-		{
-			VAN_TxCmd();
+			SPD1_TxCmd();
 		}
 	}
 }
