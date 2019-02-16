@@ -1,4 +1,5 @@
 #include "usart_spd2.h"
+#include "spd_comm.h"
 #include "Modbus_svr.h"
 #include "SysTick.h"
 
@@ -16,6 +17,8 @@ u8 SPD2_curptr;
 u8 SPD2_bRecv;
 u8 SPD2_frame_len = 85;
 u32 ulSpd2Tick = 0;
+
+SpeedValueQueue qspd2 ;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -121,6 +124,8 @@ void SPD2_Init(void)
     wReg[28] = 0;
     SPD2_frame_len = 2 * wReg[114] + 5;
     ulSpd2Tick = GetCurTick();
+
+    SpdQueueInit(&qspd2) ;
 }
 
 //-------------------------------------------------------------------------------
@@ -186,14 +191,17 @@ void SPD2_Task(void)
     wReg[22] = wReg[20] - wReg[24];                     //本次角度变化量
     if (wReg[20] < 1024 && wReg[24] > 3072)
     {
-        wReg[24] = wReg[20] - wReg[24] + 4096;
+        wReg[22] = wReg[20] - wReg[24] + 4096;
     }
     if (wReg[20] > 3072 && wReg[24] < 1024)
     {
-        wReg[24] = wReg[20] - wReg[24] - 4096;
+        wReg[22] = wReg[20] - wReg[24] - 4096;
     }
     if (wReg[21] != 0)
         wReg[23] = wReg[22] * 1000 / wReg[21]; //本次速度
+
+    SpdQueueIn(&qspd2, wReg[22], wReg[21]) ;
+    wReg[27] = SpdQueueAvgVal(&qspd2) ;     //10次平均速度
 
     wReg[29]++;
     SPD2_bRecv = 0;

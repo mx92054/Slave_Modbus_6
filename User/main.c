@@ -43,7 +43,7 @@ int main(void)
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
 	SetTimer(2, 200);
-	SetTimer(3, 50);
+	SetTimer(3, 100);
 
 	IWDG_Configuration();
 
