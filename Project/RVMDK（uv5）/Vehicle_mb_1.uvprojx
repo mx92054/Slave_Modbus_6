@@ -718,11 +718,6 @@
           <GroupName>DOC</GroupName>
           <Files>
             <File>
-              <FileName>必读说明.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\必读说明.txt</FilePath>
-            </File>
-            <File>
               <FileName>通信协议.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\通信协议.txt</FilePath>
