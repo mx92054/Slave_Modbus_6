@@ -41,5 +41,6 @@
 ..\..\output\main.o: ..\..\User\Modbus_svr.h
 ..\..\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\main.o: ..\..\User\usart_spd1.h
+..\..\output\main.o: ..\..\User\usart_spd2.h
 ..\..\output\main.o: ..\..\User\gpio.h
 ..\..\output\main.o: ..\..\User\bsp_innerflash.h
