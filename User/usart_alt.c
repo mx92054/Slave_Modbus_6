@@ -142,7 +142,6 @@ void ALT_Task(void)
 	if ( sscanf(ALT_buffer,"%f", &fAlimeter) > 0 )
 	{
 		wReg[ALT_SAVE_ADR] = (u16)(fAlimeter*100) ;
-			LOGGLE_LED1 ;
 	}
 }
 

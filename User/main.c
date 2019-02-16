@@ -16,6 +16,7 @@
 #include "Modbus_svr.h"
 #include "usart_spd1.h"
 #include "usart_spd2.h"
+#include "usart_spd3.h"
 #include "gpio.h"
 #include "bsp_innerflash.h"
 
@@ -39,6 +40,7 @@ int main(void)
 	Modbus_init();
 	SPD1_Init();
 	SPD2_Init();
+	SPD3_Init();
 
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
@@ -52,6 +54,7 @@ int main(void)
 		Modbus_task();
 		SPD1_Task();
 		SPD2_Task();
+		SPD3_Task();
 
 		if (GetTimer(0))
 		{
@@ -71,6 +74,7 @@ int main(void)
 		{
 			SPD1_TxCmd();
 			SPD2_TxCmd();
+			SPD3_TxCmd();
 		}
 	}
 }

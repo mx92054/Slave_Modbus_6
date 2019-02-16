@@ -1,7 +1,7 @@
 ..\..\output\main.o: ..\..\User\main.c
 ..\..\output\main.o: ..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 ..\..\output\main.o: ..\..\Libraries\CMSIS\Include\core_cm4.h
-..\..\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\..\output\main.o: D:\ExtProgram\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\..\output\main.o: ..\..\Libraries\CMSIS\Include\core_cmInstr.h
 ..\..\output\main.o: ..\..\Libraries\CMSIS\Include\core_cmFunc.h
 ..\..\output\main.o: ..\..\Libraries\CMSIS\Include\core_cmSimd.h
@@ -39,8 +39,9 @@
 ..\..\output\main.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 ..\..\output\main.o: ..\..\User\SysTick.h
 ..\..\output\main.o: ..\..\User\Modbus_svr.h
-..\..\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\..\output\main.o: D:\ExtProgram\keil\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\main.o: ..\..\User\usart_spd1.h
 ..\..\output\main.o: ..\..\User\usart_spd2.h
+..\..\output\main.o: ..\..\User\usart_spd3.h
 ..\..\output\main.o: ..\..\User\gpio.h
 ..\..\output\main.o: ..\..\User\bsp_innerflash.h

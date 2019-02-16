@@ -688,29 +688,24 @@
               <FilePath>..\..\User\bsp_innerflash.c</FilePath>
             </File>
             <File>
-              <FileName>usart_cpt.c</FileName>
+              <FileName>spd_comm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\usart_cpt.c</FilePath>
+              <FilePath>..\..\User\spd_comm.c</FilePath>
             </File>
             <File>
-              <FileName>usart_van.c</FileName>
+              <FileName>usart_spd3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\usart_van.c</FilePath>
+              <FilePath>..\..\User\usart_spd3.c</FilePath>
             </File>
             <File>
-              <FileName>usart_spd.c</FileName>
+              <FileName>usart_spd1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\usart_spd.c</FilePath>
+              <FilePath>..\..\User\usart_spd1.c</FilePath>
             </File>
             <File>
-              <FileName>usart_alt.c</FileName>
+              <FileName>usart_spd2.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\usart_alt.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart_dpt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\usart_dpt.c</FilePath>
+              <FilePath>..\..\User\usart_spd2.c</FilePath>
             </File>
           </Files>
         </Group>
