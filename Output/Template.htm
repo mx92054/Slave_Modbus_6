@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\..\Output\Template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\..\Output\Template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Sat Feb 16 10:27:09 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sat Feb 16 11:56:21 2019
 <BR><P>
 <H3>Maximum Stack Usage =        200 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -446,7 +446,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Normal_response
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modbus_Procotol_Chain
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_response
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPD1_Init
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPD1_TxCmd
 </UL>
 
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.DebugMon_Handler))
@@ -695,17 +695,16 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
 </UL>
 
-<P><STRONG><a name="[95]"></a>SPD1_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, usart_spd1.o(i.SPD1_Init))
+<P><STRONG><a name="[95]"></a>SPD1_Init</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, usart_spd1.o(i.SPD1_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = SPD1_Init &rArr; SPD1_Config &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPD1_Config
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetCurTick
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRC16
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[97]"></a>SPD1_Task</STRONG> (Thumb, 164 bytes, Stack size 24 bytes, usart_spd1.o(i.SPD1_Task))
+<P><STRONG><a name="[97]"></a>SPD1_Task</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, usart_spd1.o(i.SPD1_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SPD1_Task
 </UL>
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetCurTick
@@ -713,10 +712,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[98]"></a>SPD1_TxCmd</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, usart_spd1.o(i.SPD1_TxCmd))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SPD1_TxCmd &rArr; Usart_SendBytes
+<P><STRONG><a name="[98]"></a>SPD1_TxCmd</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, usart_spd1.o(i.SPD1_TxCmd))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = SPD1_TxCmd &rArr; Usart_SendBytes
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Usart_SendBytes
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRC16
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -905,7 +905,7 @@ Global Symbols
 
 <P><STRONG><a name="[b3]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[65]"></a>main</STRONG> (Thumb, 130 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[65]"></a>main</STRONG> (Thumb, 146 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = main &rArr; Modbus_init &rArr; MODBUS_Config &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init

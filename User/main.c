@@ -55,10 +55,16 @@ int main(void)
 			IWDG_Feed();
 			LOGGLE_LED2;
 			if (bSaved)
+			{
 				Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg);
+				bSaved = 0 ;
+			}
+
+			if ( bChanged > 10)
+				bChanged = 0;
 		}
 
-		if (GetTimer(2))
+		if (GetTimer(3))
 		{
 			SPD1_TxCmd();
 		}

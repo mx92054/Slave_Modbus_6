@@ -96,7 +96,7 @@ void Flash_Write32BitDatas(uint32_t address, uint16_t length, int32_t *data_32)
                   FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
   StartSector = Flash_GetSector(address); //获取FLASH的Sector编号
   EndSector = Flash_GetSector(address + 4 * length);
-  for (i = StartSector; i < EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
+  for (i = StartSector; i <= EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
   {
     if (FLASH_EraseSector(i, VoltageRange_3) != FLASH_COMPLETE)
       while (1)
@@ -153,7 +153,7 @@ void Flash_Write16BitDatas(uint32_t address, uint16_t length, int16_t *data_16)
                   FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
   StartSector = Flash_GetSector(address); //获取FLASH的Sector编号
   EndSector = Flash_GetSector(address + 2 * length);
-  for (i = StartSector; i < EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
+  for (i = StartSector; i <= EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
   {
     if (FLASH_EraseSector(i, VoltageRange_3) != FLASH_COMPLETE)
       while (1)
@@ -210,7 +210,7 @@ void Flash_Write8BitDatas(uint32_t address, uint16_t length, int8_t *data_8)
                   FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
   StartSector = Flash_GetSector(address); //获取FLASH的Sector编号
   EndSector = Flash_GetSector(address + length);
-  for (i = StartSector; i < EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
+  for (i = StartSector; i <= EndSector; i += 8) //每次FLASH编号增加8，可参考上边FLASH Sector的定义。
   {
     if (FLASH_EraseSector(i, VoltageRange_3) != FLASH_COMPLETE)
       while (1)

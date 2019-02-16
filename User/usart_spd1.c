@@ -7,6 +7,7 @@
 #define SPD1_LENGTH 1    // SPD1E传感器参数长度
 #define SPD1_SAVE_ADR 80 // SPD1E传感器参数在wReg中的起始地址
 
+extern u8 bChanged;
 extern u16 wReg[];
 
 uint8_t SPD1_frame[8] = {SPD1_STATION, 0x03, 0x00, SPD1_START_ADR, 0x00, SPD1_LENGTH, 0x00, 0x00};
@@ -14,7 +15,7 @@ u8 SPD1_buffer[256];
 u8 SPD1_curptr;
 u8 SPD1_bRecv;
 u8 SPD1_frame_len = 85;
-u32 ulLastTick = 0;
+u32 ulSpd1Tick = 0;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -109,28 +110,17 @@ static void SPD1_Config(u16 wBaudrate)
 //-------------------------------------------------------------------------------
 void SPD1_Init(void)
 {
-    u16 uCRC;
-
     if (wReg[107] != 96 && wReg[107] != 192 && wReg[107] != 384 && wReg[107] != 1152)
     {
-        wReg[107] = 1152;
+        wReg[107] = 384;
     }
     SPD1_Config(wReg[107]);
 
-    SPD1_frame[0] = wReg[108];                 //station number
-    SPD1_frame[2] = (wReg[109] & 0xff00) >> 8; //start address high
-    SPD1_frame[3] = wReg[109] & 0x00ff;        //start address low
-    SPD1_frame[4] = (wReg[110] & 0xff00) >> 8; //length high
-    SPD1_frame[5] = wReg[110] & 0x00ff;         //length low
-    uCRC = CRC16(SPD1_frame, 6);
-    SPD1_frame[6] = uCRC & 0x00FF;        //CRC low
-    SPD1_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
-
     SPD1_curptr = 0;
     SPD1_bRecv = 0;
-    wReg[96] = 0;
+    wReg[18] = 0;
     SPD1_frame_len = 2 * SPD1_LENGTH + 5;
-    ulLastTick = GetCurTick();
+    ulSpd1Tick = GetCurTick();
 }
 
 //-------------------------------------------------------------------------------
@@ -140,11 +130,27 @@ void SPD1_Init(void)
 //-------------------------------------------------------------------------------
 void SPD1_TxCmd(void)
 {
+    u16 uCRC;
+
     if (SPD1_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
-        wReg[16]++;
+        wReg[18]++;
 
     SPD1_curptr = 0;
     SPD1_bRecv = 1;
+
+    if (bChanged)
+    {
+        SPD1_frame[0] = wReg[108];                 //station number
+        SPD1_frame[2] = (wReg[109] & 0xff00) >> 8; //start address high
+        SPD1_frame[3] = wReg[109] & 0x00ff;        //start address low
+        SPD1_frame[4] = (wReg[110] & 0xff00) >> 8; //length high
+        SPD1_frame[5] = wReg[110] & 0x00ff;        //length low
+        uCRC = CRC16(SPD1_frame, 6);
+        SPD1_frame[6] = uCRC & 0x00FF;        //CRC low
+        SPD1_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
+        bChanged++;
+    }
+
     Usart_SendBytes(USART_SPD1, SPD1_frame, 8);
 }
 
@@ -155,24 +161,25 @@ void SPD1_TxCmd(void)
 //-------------------------------------------------------------------------------
 void SPD1_Task(void)
 {
-    int i;
     u32 tick;
 
     if (SPD1_curptr < SPD1_frame_len)
         return;
 
-    if (SPD1_buffer[0] != SPD1_STATION || SPD1_buffer[1] != 0x03)
+    if (SPD1_buffer[0] != wReg[108] || SPD1_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD1_buffer[2] != 2 * SPD1_LENGTH)
+    if (SPD1_buffer[2] != 2 * wReg[110]) //数值长度判读
         return;
 
     wReg[12] = wReg[10];                                //上次编码器值
     wReg[10] = SPD1_buffer[3] << 0x08 | SPD1_buffer[4]; //本次编码器值
 
     tick = GetCurTick();
+
     wReg[13] = wReg[11];          //上次计时器值
-    wReg[11] = tick & 0x0000ffff; //本次计时器值
+    wReg[11] = tick - ulSpd1Tick; //本次计时器值
+    ulSpd1Tick = tick;
 
     wReg[15] = wReg[14];            //上次角度变化量
     wReg[14] = wReg[10] - wReg[12]; //本次角度变化量
@@ -185,9 +192,8 @@ void SPD1_Task(void)
         wReg[14] = wReg[10] - wReg[12] - 4096;
     }
 
-    wReg[17] = wReg[16]; //上次速度
-    i = (wReg[11] > wReg[13]) ? (wReg[11] - wReg[13]) : (0xffff - wReg[13] + wReg[11] + 1);
-    wReg[16] = wReg[14] * 1000 / i; //本次速度
+    wReg[17] = wReg[16];                   //上次速度
+    wReg[16] = wReg[14] * 1000 / wReg[11]; //本次速度
 
     wReg[19]++;
     SPD1_bRecv = 0;

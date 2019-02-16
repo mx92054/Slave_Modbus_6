@@ -2,11 +2,8 @@
 #include "Modbus_svr.h"
 
 #define ADDRESS wReg[100] //当前站地址
-#define FRAMETIMER 5	  //帧时间间隔
 #define BAUDRATE wReg[101]
-
-//wReg[100]   station addresss
-//wReg[101]   Baud rat /100
+#define FRAMETIMER 5 //帧时间间隔
 
 short wReg[REG_LEN];
 short coils[COIL_LEN];
@@ -133,9 +130,6 @@ void Modbus_init(void)
 		ADDRESS = 1;
 		bSaved = 1;
 	}
-
-	//BAUDRATE = 1152 ;
-	//ADDRESS = 1 ;
 
 	MODBUS_NVIC_Configuration();
 	MODBUS_Config(BAUDRATE * 100);
@@ -351,7 +345,7 @@ u8 Modbus_Procotol_Chain(void)
 		bSaved = 1;
 
 		// 改写了命令寄存器，需要向下位机发送命令
-		if (reg_adr >= 100 && reg_adr < 120)
+		if (reg_adr >= 100 && reg_adr <= 120)
 			bChanged = 1;
 
 		trans_len = 8;

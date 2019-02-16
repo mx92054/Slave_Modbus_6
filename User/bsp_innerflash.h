@@ -17,7 +17,7 @@
 #define ADDR_FLASH_SECTOR_10 ((uint32_t)0x080C0000) /* Base @ of Sector 10, 128 Kbytes */
 #define ADDR_FLASH_SECTOR_11 ((uint32_t)0x080E0000) /* Base @ of Sector 11, 128 Kbytes */
 
-#define FLASH_USER_START_ADDR ADDR_FLASH_SECTOR_9 //用户起始地址，暂定为第十个扇区的起始地址
+#define FLASH_USER_START_ADDR ADDR_FLASH_SECTOR_4 //用户起始地址，暂定为第十个扇区的起始地址
 
 //API
 uint16_t Flash_GetSector(uint32_t Address);
