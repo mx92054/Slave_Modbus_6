@@ -1,5 +1,6 @@
 #include "usart_van.h"
 #include "Modbus_svr.h"
+#include "SysTick.h"
 
 #define VAN_STATION 1   // VANE传感器站地址
 #define VAN_START_ADR 0 // VANE传感器参数首地址
@@ -16,6 +17,7 @@ u8 VAN_bRecv;
 u8 VAN_frame_len = 85;
 
 u8 bVanTxCmd = 0;
+u32 ulLastTick1 = 0 ;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -120,6 +122,7 @@ void VAN_Init(void)
 	VAN_curptr = 0;
 	VAN_bRecv = 0;
 	wReg[97] = 0;
+	ulLastTick1 = GetCurTick() ;
 }
 
 //-------------------------------------------------------------------------------
@@ -188,6 +191,7 @@ void VAN_TransData(void)
 void VAN_Task(void)
 {
 	int i;
+	u32 ticks ; 
 
 	if (VAN_curptr < VAN_frame_len)
 		return;
@@ -202,6 +206,10 @@ void VAN_Task(void)
 
 		for (i = 0; i < VAN_LENGTH; i++)
 			wReg[VAN_SAVE_ADR + i] = VAN_buffer[2 * i + 3] << 0x08 | VAN_buffer[2 * i + 4];
+
+		ticks = GetCurTick() ;
+		wReg[130] = ticks - ulLastTick1 ;
+		ulLastTick1 = ticks ;
 
 		wReg[154]++;
 		VAN_bRecv = 0;

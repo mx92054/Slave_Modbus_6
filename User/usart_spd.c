@@ -1,5 +1,6 @@
 #include "usart_spd.h"
 #include "Modbus_svr.h"
+#include "SysTick.h"
 
 #define SPD_STATION 2   // SPDE传感器站地址
 #define SPD_START_ADR 0 // SPDE传感器参数首地址
@@ -13,6 +14,7 @@ u8 SPD_buffer[256];
 u8 SPD_curptr;
 u8 SPD_bRecv;
 u8 SPD_frame_len = 85;
+u32 ulLastTick = 0;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -118,6 +120,7 @@ void SPD_Init(void)
   SPD_bRecv = 0;
   wReg[96] = 0;
   SPD_frame_len = 2 * SPD_LENGTH + 5;
+  ulLastTick = GetCurTick() ;
 }
 
 //-------------------------------------------------------------------------------
@@ -143,6 +146,7 @@ void SPD_TxCmd(void)
 void SPD_Task(void)
 {
   int i;
+  u32 tick;
 
   if (SPD_curptr < SPD_frame_len)
     return;
@@ -169,6 +173,10 @@ void SPD_Task(void)
     wReg[82] = wReg[80] - wReg[81] - 4096;
     wReg[84]--;
   }
+
+  tick = GetCurTick();
+  wReg[131] = tick - ulLastTick ;
+  ulLastTick = tick ;
 
   wReg[153]++;
   SPD_bRecv = 0;
