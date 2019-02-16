@@ -11,6 +11,7 @@ u8 SPD1_buffer[256];
 u8 SPD1_curptr;
 u8 SPD1_bRecv;
 u8 SPD1_frame_len = 85;
+u8 SPD1_bFirst = 1 ;
 u32 ulSpd1Tick = 0;
 
 SpeedValueQueue qspd1;
@@ -130,7 +131,6 @@ void SPD1_Init(void)
 //-------------------------------------------------------------------------------
 void SPD1_TxCmd(void)
 {
-    u8 bFirst = 1;
     u16 uCRC;
 
     if (SPD1_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
@@ -139,7 +139,7 @@ void SPD1_TxCmd(void)
     SPD1_curptr = 0;
     SPD1_bRecv = 1;
 
-    if (bChanged || bFirst)
+    if (bChanged || SPD1_bFirst)
     {
         SPD1_frame[0] = SPD1_STATION;                   //station number
         SPD1_frame[2] = (SPD1_START_ADR & 0xff00) >> 8; //start address high
@@ -150,7 +150,7 @@ void SPD1_TxCmd(void)
         SPD1_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD1_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
         bChanged++;
-        bFirst = 0;
+        SPD1_bFirst = 0;
     }
 
     Usart_SendBytes(USART_SPD1, SPD1_frame, 8);

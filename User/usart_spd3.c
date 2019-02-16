@@ -11,6 +11,7 @@ u8 SPD3_buffer[256];
 u8 SPD3_curptr;
 u8 SPD3_bRecv;
 u8 SPD3_frame_len = 85;
+u8 SPD3_bFirst = 1 ;
 u32 ulSPD3Tick = 0;
 
 SpeedValueQueue qSPD3;
@@ -130,7 +131,6 @@ void SPD3_Init(void)
 //-------------------------------------------------------------------------------
 void SPD3_TxCmd(void)
 {
-    u8 bFirst = 1;
     u16 uCRC;
 
     if (SPD3_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
@@ -139,7 +139,7 @@ void SPD3_TxCmd(void)
     SPD3_curptr = 0;
     SPD3_bRecv = 1;
 
-    if (bChanged || bFirst)
+    if (bChanged || SPD3_bFirst)
     {
         SPD3_frame[0] = SPD3_STATION;                   //station number
         SPD3_frame[2] = (SPD3_START_ADR & 0xff00) >> 8; //start address high
@@ -150,7 +150,7 @@ void SPD3_TxCmd(void)
         SPD3_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD3_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
         bChanged++;
-        bFirst = 0;
+        SPD3_bFirst = 0;
     }
 
     Usart_SendBytes(USART_SPD3, SPD3_frame, 8);

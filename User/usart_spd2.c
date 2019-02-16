@@ -11,6 +11,7 @@ u8 SPD2_buffer[256];
 u8 SPD2_curptr;
 u8 SPD2_bRecv;
 u8 SPD2_frame_len = 85;
+u8 SPD2_bFirst = 1 ;
 u32 ulSPD2Tick = 0;
 
 SpeedValueQueue qSPD2;
@@ -130,7 +131,6 @@ void SPD2_Init(void)
 //-------------------------------------------------------------------------------
 void SPD2_TxCmd(void)
 {
-    u8 bFirst = 1;
     u16 uCRC;
 
     if (SPD2_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
@@ -139,7 +139,7 @@ void SPD2_TxCmd(void)
     SPD2_curptr = 0;
     SPD2_bRecv = 1;
 
-    if (bChanged || bFirst)
+    if (bChanged || SPD2_bFirst)
     {
         SPD2_frame[0] = SPD2_STATION;                   //station number
         SPD2_frame[2] = (SPD2_START_ADR & 0xff00) >> 8; //start address high
@@ -150,7 +150,7 @@ void SPD2_TxCmd(void)
         SPD2_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD2_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
         bChanged++;
-        bFirst = 0;
+        SPD2_bFirst = 0;
     }
 
     Usart_SendBytes(USART_SPD2, SPD2_frame, 8);
