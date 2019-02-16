@@ -1,7 +1,7 @@
-/******************** (C) COPYRIGHT 2012 WildFire Team ***************************
+/*********************************************************
  * 文件名  ：SysTick.c
  * 描述    ：SysTick 系统滴答时钟10us中断函数库,中断时间可自由配置，
-**********************************************************************************/
+********************************************************/
 #include "SysTick.h"
 #include "Modbus_svr.h"
 
@@ -12,8 +12,8 @@ extern short wReg[];
 static __IO u32 TimingDelay = 0; // 延时定时器计数器
 __IO u16 TimePre[TIMER_NUM];	 //	计数器预置值
 __IO u16 TimeCur[TIMER_NUM];	 //	计数器预置值
-__IO u8 TimerFlag[TIMER_NUM];
-__IO u32 nlTicks = 0; //当前流逝时间的计数器
+__IO u8 TimerFlag[TIMER_NUM];	 // 计数器标志位
+__IO u32 nlTicks = 0;			//当前流逝时间的计数器
 
 /*---------SysTick Initialize---------------------------------------------------*/
 void SysTick_Init(void)
@@ -52,7 +52,7 @@ void SysTick_Handler(void)
 	int i;
 
 	ModbusTimer();
-	nlTicks++ ;
+	nlTicks++;
 
 	if (!TimingDelay)
 		TimingDelay--;
@@ -96,7 +96,7 @@ u16 GetTimer(u8 no)
 /*---------------GetCurTick()---------------------------------------------------------*/
 u32 GetCurTick(void)
 {
-	return nlTicks ;
+	return nlTicks;
 }
 
-/******************* (C) COPYRIGHT 2012 WildFire Team *****END OF FILE************/
+/************************END OF FILE************/

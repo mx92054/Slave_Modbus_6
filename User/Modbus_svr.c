@@ -1,5 +1,6 @@
 #include <string.h>
 #include "Modbus_svr.h"
+#include "stm32f4xx_conf.h"
 
 #define ADDRESS wReg[100] //µ±«∞’æµÿ÷∑
 #define BAUDRATE wReg[101]

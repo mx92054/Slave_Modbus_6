@@ -2,6 +2,7 @@
 #include "spd_comm.h"
 #include "Modbus_svr.h"
 #include "SysTick.h"
+#include "stm32f4xx_conf.h"
 
 extern u8 bChanged;
 extern u16 wReg[];

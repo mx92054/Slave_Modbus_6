@@ -1,6 +1,7 @@
 #include "usart_dpt.h"
 #include "Modbus_svr.h"
 #include <stdio.h>
+#include "stm32f4xx_conf.h"
 
 #define DPT_SAVE_ADR 0 	// DPTE传感器参数在wReg中的起始地址
 #define DPT_BAUDRATE wReg[105]
