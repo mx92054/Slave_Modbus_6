@@ -50,6 +50,8 @@
 "..\..\output\usart_van.o"
 "..\..\output\usart_alt.o"
 "..\..\output\usart_spd1.o"
+"..\..\output\usart_spd2.o"
+"..\..\output\spd_comm.o"
 --library_type=microlib --strict --scatter "..\..\Output\Template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

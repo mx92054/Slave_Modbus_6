@@ -1,4 +1,5 @@
 #include "usart_spd1.h"
+#include "spd_comm.h"
 #include "Modbus_svr.h"
 #include "SysTick.h"
 
@@ -16,6 +17,8 @@ u8 SPD1_curptr;
 u8 SPD1_bRecv;
 u8 SPD1_frame_len = 85;
 u32 ulSpd1Tick = 0;
+
+SpeedValueQueue qspd1 ;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -119,8 +122,10 @@ void SPD1_Init(void)
     SPD1_curptr = 0;
     SPD1_bRecv = 0;
     wReg[18] = 0;
-    SPD1_frame_len = 2 * SPD1_LENGTH + 5;
+    SPD1_frame_len = 2 * wReg[110] + 5;
     ulSpd1Tick = GetCurTick();
+    
+    SpdQueueInit(&qspd1) ;
 }
 
 //-------------------------------------------------------------------------------
@@ -130,6 +135,7 @@ void SPD1_Init(void)
 //-------------------------------------------------------------------------------
 void SPD1_TxCmd(void)
 {
+    u8 bFirst = 1;
     u16 uCRC;
 
     if (SPD1_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
@@ -138,7 +144,7 @@ void SPD1_TxCmd(void)
     SPD1_curptr = 0;
     SPD1_bRecv = 1;
 
-    if (bChanged)
+    if (bChanged || bFirst)
     {
         SPD1_frame[0] = wReg[108];                 //station number
         SPD1_frame[2] = (wReg[109] & 0xff00) >> 8; //start address high
@@ -149,6 +155,7 @@ void SPD1_TxCmd(void)
         SPD1_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD1_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
         bChanged++;
+        bFirst = 0;
     }
 
     Usart_SendBytes(USART_SPD1, SPD1_frame, 8);
@@ -172,28 +179,28 @@ void SPD1_Task(void)
     if (SPD1_buffer[2] != 2 * wReg[110]) //数值长度判读
         return;
 
-    wReg[12] = wReg[10];                                //上次编码器值
-    wReg[10] = SPD1_buffer[3] << 0x08 | SPD1_buffer[4]; //本次编码器值
-
     tick = GetCurTick();
+    wReg[14] = wReg[10]; //上次编码器值
+    wReg[15] = wReg[11]; //上次计时器值
+    wReg[16] = wReg[12]; //上次角度变化值
 
-    wReg[13] = wReg[11];          //上次计时器值
-    wReg[11] = tick - ulSpd1Tick; //本次计时器值
-    ulSpd1Tick = tick;
-
-    wReg[15] = wReg[14];            //上次角度变化量
-    wReg[14] = wReg[10] - wReg[12]; //本次角度变化量
-    if (wReg[10] < 1024 && wReg[12] > 3072)
+    wReg[10] = SPD1_buffer[3] << 0x08 | SPD1_buffer[4]; //本次编码器值
+    wReg[11] = tick - ulSpd1Tick;                       //本次计时器值
+    ulSpd1Tick = tick;                                  //保存计时器
+    wReg[12] = wReg[10] - wReg[14];                     //本次角度变化量
+    if (wReg[10] < 1024 && wReg[14] > 3072)
     {
-        wReg[14] = wReg[10] - wReg[12] + 4096;
+        wReg[12] = wReg[10] - wReg[14] + 4096;
     }
-    if (wReg[10] > 3072 && wReg[12] < 1024)
+    if (wReg[10] > 3072 && wReg[14] < 1024)
     {
-        wReg[14] = wReg[10] - wReg[12] - 4096;
+        wReg[12] = wReg[10] - wReg[14] - 4096;
     }
+    if (wReg[11] != 0)
+        wReg[13] = wReg[12] * 1000 / wReg[11]; //本次速度
 
-    wReg[17] = wReg[16];                   //上次速度
-    wReg[16] = wReg[14] * 1000 / wReg[11]; //本次速度
+    SpdQueueIn(&qspd1, wReg[12], wReg[11]) ;
+    wReg[17] = SpdQueueAvgVal(&qspd1) ;     //10次平均速度
 
     wReg[19]++;
     SPD1_bRecv = 0;

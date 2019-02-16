@@ -38,6 +38,7 @@
 ..\..\output\usart_spd1.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 ..\..\output\usart_spd1.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_ltdc.h
 ..\..\output\usart_spd1.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
+..\..\output\usart_spd1.o: ..\..\User\spd_comm.h
 ..\..\output\usart_spd1.o: ..\..\User\Modbus_svr.h
 ..\..\output\usart_spd1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\usart_spd1.o: ..\..\User\SysTick.h
