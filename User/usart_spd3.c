@@ -18,7 +18,7 @@ u8 SPD3_bRecv;
 u8 SPD3_frame_len = 85;
 u32 ulSPD3Tick = 0;
 
-SpeedValueQueue qSPD3 ;
+SpeedValueQueue qSPD3;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -124,8 +124,8 @@ void SPD3_Init(void)
     wReg[38] = 0;
     SPD3_frame_len = 2 * wReg[118] + 5;
     ulSPD3Tick = GetCurTick();
-    
-    SpdQueueInit(&qSPD3) ;
+
+    SpdQueueInit(&qSPD3);
 }
 
 //-------------------------------------------------------------------------------
@@ -173,10 +173,10 @@ void SPD3_Task(void)
     if (SPD3_curptr < SPD3_frame_len)
         return;
 
-    if (SPD3_buffer[0] != wReg[308] || SPD3_buffer[1] != 0x03) //站地址判断
+    if (SPD3_buffer[0] != wReg[116] || SPD3_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD3_buffer[2] != 2 * wReg[310]) //数值长度判读
+    if (SPD3_buffer[2] != 2 * wReg[118]) //数值长度判读
         return;
 
     tick = GetCurTick();
@@ -199,8 +199,8 @@ void SPD3_Task(void)
     if (wReg[31] != 0)
         wReg[33] = wReg[32] * 1000 / wReg[31]; //本次速度
 
-    SpdQueueIn(&qSPD3, wReg[32], wReg[31]) ;
-    wReg[37] = SpdQueueAvgVal(&qSPD3) ;     //10次平均速度
+    SpdQueueIn(&qSPD3, wReg[32], wReg[31]);
+    wReg[37] = SpdQueueAvgVal(&qSPD3); //10次平均速度
 
     wReg[39]++;
     SPD3_bRecv = 0;
