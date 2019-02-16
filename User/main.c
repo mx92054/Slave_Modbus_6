@@ -14,6 +14,7 @@
 #include "stm32f4xx.h"
 #include "SysTick.h"
 #include "Modbus_svr.h"
+#include "usart_alt.h"
 #include "usart_spd1.h"
 #include "usart_spd2.h"
 #include "usart_spd3.h"
@@ -38,6 +39,7 @@ int main(void)
 	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg);
 
 	Modbus_init();
+	ALT_Init();
 	SPD1_Init();
 	SPD2_Init();
 	SPD3_Init();
@@ -52,6 +54,7 @@ int main(void)
 	while (1)
 	{
 		Modbus_task();
+		ALT_Task();
 		SPD1_Task();
 		SPD2_Task();
 		SPD3_Task();
@@ -63,11 +66,16 @@ int main(void)
 			if (bSaved)
 			{
 				Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg);
-				bSaved = 0 ;
+				bSaved = 0;
 			}
 
-			if ( bChanged > 10)
+			if (bChanged > 10)
 				bChanged = 0;
+		}
+
+		if (GetTimer(2))
+		{
+			ALT_TxCmd();
 		}
 
 		if (GetTimer(3))
