@@ -30,6 +30,23 @@
 #define SPD2_USART_IRQ UART7_IRQn
 #define SPD2_USART_IRQHandler UART7_IRQHandler
 
+//----------------------------------------------------------------
+#define SPD2_BAUDRATE wReg[111]  //2#编码器通信速度
+#define SPD2_STATION wReg[112]   //2#编码器站地址
+#define SPD2_START_ADR wReg[113] //2#编码器参数首地址
+#define SPD2_REG_LEN wReg[114]   //2#编码器参数长度
+
+#define SPD2_CUR_ANG wReg[20]  //2#编码器当前角度
+#define SPD2_CUR_TICK wReg[21] //2#编码器当前角度
+#define SPD2_CUR_DETA wReg[22] //2#编码器当前角度
+#define SPD2_CUR_SPD wReg[23]  //2#编码器当前角度
+#define SPD2_LST_ANG wReg[24]  //2#编码器当前角度
+#define SPD2_LST_TICK wReg[25] //2#编码器当前角度
+#define SPD2_LST_DETA wReg[26] //2#编码器当前角度
+#define SPD2_AVG_SPD wReg[27]  //2#编码器当前角度
+#define SPD2_COM_FAIL wReg[28] //2#编码器当前角度
+#define SPD2_COM_SUCS wReg[29] //2#编码器当前角度
+
 void SPD2_Init(void);
 void SPD2_TxCmd(void);
 void SPD2_Task(void);

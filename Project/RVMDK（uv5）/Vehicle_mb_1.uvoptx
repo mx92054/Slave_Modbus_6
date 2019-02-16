@@ -830,8 +830,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\User\usart_alt.c</PathWithFileName>
-      <FilenameWithoutPath>usart_alt.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\User\usart_dpt.c</PathWithFileName>
+      <FilenameWithoutPath>usart_dpt.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

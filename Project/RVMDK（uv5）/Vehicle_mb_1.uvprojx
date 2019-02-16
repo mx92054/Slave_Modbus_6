@@ -708,9 +708,9 @@
               <FilePath>..\..\User\usart_spd2.c</FilePath>
             </File>
             <File>
-              <FileName>usart_alt.c</FileName>
+              <FileName>usart_dpt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\usart_alt.c</FilePath>
+              <FilePath>..\..\User\usart_dpt.c</FilePath>
             </File>
           </Files>
         </Group>

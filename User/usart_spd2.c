@@ -3,22 +3,17 @@
 #include "Modbus_svr.h"
 #include "SysTick.h"
 
-#define SPD2_STATION 2   // SPD2E传感器站地址
-#define SPD2_START_ADR 0 // SPD2E传感器参数首地址
-#define SPD2_LENGTH 1    // SPD2E传感器参数长度
-#define SPD2_SAVE_ADR 80 // SPD2E传感器参数在wReg中的起始地址
-
 extern u8 bChanged;
 extern u16 wReg[];
 
-uint8_t SPD2_frame[8] = {SPD2_STATION, 0x03, 0x00, SPD2_START_ADR, 0x00, SPD2_LENGTH, 0x00, 0x00};
+uint8_t SPD2_frame[8] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
 u8 SPD2_buffer[256];
 u8 SPD2_curptr;
 u8 SPD2_bRecv;
 u8 SPD2_frame_len = 85;
-u32 ulSpd2Tick = 0;
+u32 ulSPD2Tick = 0;
 
-SpeedValueQueue qspd2 ;
+SpeedValueQueue qSPD2;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -113,19 +108,19 @@ static void SPD2_Config(u16 wBaudrate)
  ****************************************************************/
 void SPD2_Init(void)
 {
-    if (wReg[111] != 96 && wReg[111] != 192 && wReg[111] != 384 && wReg[111] != 1152)
+    if (SPD2_BAUDRATE != 96 && SPD2_BAUDRATE != 192 && SPD2_BAUDRATE != 384 && SPD2_BAUDRATE != 1152)
     {
-        wReg[111] = 384;
+        SPD2_BAUDRATE = 384;
     }
-    SPD2_Config(wReg[111]);
+    SPD2_Config(SPD2_BAUDRATE);
 
     SPD2_curptr = 0;
     SPD2_bRecv = 0;
-    wReg[28] = 0;
-    SPD2_frame_len = 2 * wReg[114] + 5;
-    ulSpd2Tick = GetCurTick();
+    SPD2_COM_FAIL = 0;
+    SPD2_frame_len = 2 * SPD2_REG_LEN + 5;
+    ulSPD2Tick = GetCurTick();
 
-    SpdQueueInit(&qspd2) ;
+    SpdQueueInit(&qSPD2);
 }
 
 //-------------------------------------------------------------------------------
@@ -139,18 +134,18 @@ void SPD2_TxCmd(void)
     u16 uCRC;
 
     if (SPD2_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
-        wReg[28]++;
+        SPD2_COM_FAIL++;
 
     SPD2_curptr = 0;
     SPD2_bRecv = 1;
 
     if (bChanged || bFirst)
     {
-        SPD2_frame[0] = wReg[112];                 //station number
-        SPD2_frame[2] = (wReg[113] & 0xff00) >> 8; //start address high
-        SPD2_frame[3] = wReg[113] & 0x00ff;        //start address low
-        SPD2_frame[4] = (wReg[114] & 0xff00) >> 8; //length high
-        SPD2_frame[5] = wReg[114] & 0x00ff;        //length low
+        SPD2_frame[0] = SPD2_STATION;                   //station number
+        SPD2_frame[2] = (SPD2_START_ADR & 0xff00) >> 8; //start address high
+        SPD2_frame[3] = SPD2_START_ADR & 0x00ff;        //start address low
+        SPD2_frame[4] = (SPD2_REG_LEN & 0xff00) >> 8;   //length high
+        SPD2_frame[5] = SPD2_REG_LEN & 0x00ff;          //length low
         uCRC = CRC16(SPD2_frame, 6);
         SPD2_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD2_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
@@ -161,11 +156,11 @@ void SPD2_TxCmd(void)
     Usart_SendBytes(USART_SPD2, SPD2_frame, 8);
 }
 
-//-------------------------------------------------------------------------------
-//	@brief	接收数据处理
-//	@param	None
-//	@retval	None
-//-------------------------------------------------------------------------------
+/*
+ *	@brief	接收数据处理
+ *	@param	None
+ *	@retval	None
+ */
 void SPD2_Task(void)
 {
     u32 tick;
@@ -173,37 +168,36 @@ void SPD2_Task(void)
     if (SPD2_curptr < SPD2_frame_len)
         return;
 
-    if (SPD2_buffer[0] != wReg[112] || SPD2_buffer[1] != 0x03) //站地址判断
+    if (SPD2_buffer[0] != wReg[108] || SPD2_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD2_buffer[2] != 2 * wReg[114]) //数值长度判读
+    if (SPD2_buffer[2] != 2 * wReg[110]) //数值长度判读
         return;
 
     tick = GetCurTick();
-    wReg[24] = wReg[20]; //上次编码器值
-    wReg[25] = wReg[21]; //上次计时器值
-    wReg[26] = wReg[22]; //上次角度变化值
-    wReg[27] = wReg[23]; //上次计算速度
+    SPD2_LST_ANG = SPD2_CUR_ANG;   //上次编码器值
+    SPD2_LST_TICK = SPD2_CUR_TICK; //上次计时器值
+    SPD2_LST_DETA = SPD2_CUR_DETA; //上次角度变化值
 
-    wReg[20] = SPD2_buffer[3] << 0x08 | SPD2_buffer[4]; //本次编码器值
-    wReg[21] = tick - ulSpd2Tick;                       //本次计时器值
-    ulSpd2Tick = tick;                                  //保存计时器
-    wReg[22] = wReg[20] - wReg[24];                     //本次角度变化量
-    if (wReg[20] < 1024 && wReg[24] > 3072)
+    SPD2_CUR_ANG = SPD2_buffer[3] << 0x08 | SPD2_buffer[4]; //本次编码器值
+    SPD2_CUR_TICK = tick - ulSPD2Tick;                      //本次计时器值
+    ulSPD2Tick = tick;                                      //保存计时器
+    SPD2_CUR_DETA = SPD2_CUR_ANG - SPD2_LST_ANG;            //本次角度变化量
+    if (SPD2_CUR_ANG < 1024 && SPD2_LST_ANG > 3072)
     {
-        wReg[22] = wReg[20] - wReg[24] + 4096;
+        SPD2_CUR_DETA = SPD2_CUR_ANG - SPD2_LST_ANG + 4096;
     }
-    if (wReg[20] > 3072 && wReg[24] < 1024)
+    if (SPD2_CUR_ANG > 3072 && SPD2_LST_ANG < 1024)
     {
-        wReg[22] = wReg[20] - wReg[24] - 4096;
+        SPD2_CUR_DETA = SPD2_CUR_ANG - SPD2_LST_ANG - 4096;
     }
-    if (wReg[21] != 0)
-        wReg[23] = wReg[22] * 1000 / wReg[21]; //本次速度
+    if (SPD2_CUR_TICK != 0)
+        SPD2_CUR_SPD = SPD2_CUR_DETA * 1000 / SPD2_CUR_TICK; //本次速度
 
-    SpdQueueIn(&qspd2, wReg[22], wReg[21]) ;
-    wReg[27] = SpdQueueAvgVal(&qspd2) ;     //10次平均速度
+    SpdQueueIn(&qSPD2, SPD2_CUR_DETA, SPD2_CUR_TICK);
+    SPD2_AVG_SPD = SpdQueueAvgVal(&qSPD2); //10次平均速度
 
-    wReg[29]++;
+    SPD2_COM_SUCS++;
     SPD2_bRecv = 0;
     SPD2_curptr = 0;
 }

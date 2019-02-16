@@ -40,7 +40,7 @@
 ..\..\output\main.o: ..\..\User\SysTick.h
 ..\..\output\main.o: ..\..\User\Modbus_svr.h
 ..\..\output\main.o: D:\ExtProgram\keil\ARM\ARMCC\Bin\..\include\stdio.h
-..\..\output\main.o: ..\..\User\usart_alt.h
+..\..\output\main.o: ..\..\User\usart_dpt.h
 ..\..\output\main.o: ..\..\User\usart_spd1.h
 ..\..\output\main.o: ..\..\User\usart_spd2.h
 ..\..\output\main.o: ..\..\User\usart_spd3.h

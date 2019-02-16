@@ -3,15 +3,10 @@
 #include "Modbus_svr.h"
 #include "SysTick.h"
 
-#define SPD3_STATION 2   // SPD3E传感器站地址
-#define SPD3_START_ADR 0 // SPD3E传感器参数首地址
-#define SPD3_LENGTH 1    // SPD3E传感器参数长度
-#define SPD3_SAVE_ADR 80 // SPD3E传感器参数在wReg中的起始地址
-
 extern u8 bChanged;
 extern u16 wReg[];
 
-uint8_t SPD3_frame[8] = {SPD3_STATION, 0x03, 0x00, SPD3_START_ADR, 0x00, SPD3_LENGTH, 0x00, 0x00};
+uint8_t SPD3_frame[8] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
 u8 SPD3_buffer[256];
 u8 SPD3_curptr;
 u8 SPD3_bRecv;
@@ -113,16 +108,16 @@ static void SPD3_Config(u16 wBaudrate)
  ****************************************************************/
 void SPD3_Init(void)
 {
-    if (wReg[115] != 96 && wReg[115] != 192 && wReg[115] != 384 && wReg[115] != 1152)
+    if (SPD3_BAUDRATE != 96 && SPD3_BAUDRATE != 192 && SPD3_BAUDRATE != 384 && SPD3_BAUDRATE != 1152)
     {
-        wReg[115] = 384;
+        SPD3_BAUDRATE = 384;
     }
-    SPD3_Config(wReg[115]);
+    SPD3_Config(SPD3_BAUDRATE);
 
     SPD3_curptr = 0;
     SPD3_bRecv = 0;
-    wReg[38] = 0;
-    SPD3_frame_len = 2 * wReg[118] + 5;
+    SPD3_COM_FAIL = 0;
+    SPD3_frame_len = 2 * SPD3_REG_LEN + 5;
     ulSPD3Tick = GetCurTick();
 
     SpdQueueInit(&qSPD3);
@@ -139,18 +134,18 @@ void SPD3_TxCmd(void)
     u16 uCRC;
 
     if (SPD3_bRecv == 1) //如果当前未完成接收，则通信错误计数器递增
-        wReg[38]++;
+        SPD3_COM_FAIL++;
 
     SPD3_curptr = 0;
     SPD3_bRecv = 1;
 
     if (bChanged || bFirst)
     {
-        SPD3_frame[0] = wReg[116];                 //station number
-        SPD3_frame[2] = (wReg[117] & 0xff00) >> 8; //start address high
-        SPD3_frame[3] = wReg[117] & 0x00ff;        //start address low
-        SPD3_frame[4] = (wReg[118] & 0xff00) >> 8; //length high
-        SPD3_frame[5] = wReg[118] & 0x00ff;        //length low
+        SPD3_frame[0] = SPD3_STATION;                   //station number
+        SPD3_frame[2] = (SPD3_START_ADR & 0xff00) >> 8; //start address high
+        SPD3_frame[3] = SPD3_START_ADR & 0x00ff;        //start address low
+        SPD3_frame[4] = (SPD3_REG_LEN & 0xff00) >> 8;   //length high
+        SPD3_frame[5] = SPD3_REG_LEN & 0x00ff;          //length low
         uCRC = CRC16(SPD3_frame, 6);
         SPD3_frame[6] = uCRC & 0x00FF;        //CRC low
         SPD3_frame[7] = (uCRC & 0xFF00) >> 8; //CRC high
@@ -161,11 +156,11 @@ void SPD3_TxCmd(void)
     Usart_SendBytes(USART_SPD3, SPD3_frame, 8);
 }
 
-//-------------------------------------------------------------------------------
-//	@brief	接收数据处理
-//	@param	None
-//	@retval	None
-//-------------------------------------------------------------------------------
+/*
+ *	@brief	接收数据处理
+ *	@param	None
+ *	@retval	None
+ */
 void SPD3_Task(void)
 {
     u32 tick;
@@ -173,36 +168,36 @@ void SPD3_Task(void)
     if (SPD3_curptr < SPD3_frame_len)
         return;
 
-    if (SPD3_buffer[0] != wReg[116] || SPD3_buffer[1] != 0x03) //站地址判断
+    if (SPD3_buffer[0] != wReg[108] || SPD3_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD3_buffer[2] != 2 * wReg[118]) //数值长度判读
+    if (SPD3_buffer[2] != 2 * wReg[110]) //数值长度判读
         return;
 
     tick = GetCurTick();
-    wReg[34] = wReg[30]; //上次编码器值
-    wReg[35] = wReg[31]; //上次计时器值
-    wReg[36] = wReg[32]; //上次角度变化值
+    SPD3_LST_ANG = SPD3_CUR_ANG;   //上次编码器值
+    SPD3_LST_TICK = SPD3_CUR_TICK; //上次计时器值
+    SPD3_LST_DETA = SPD3_CUR_DETA; //上次角度变化值
 
-    wReg[30] = SPD3_buffer[3] << 0x08 | SPD3_buffer[4]; //本次编码器值
-    wReg[31] = tick - ulSPD3Tick;                       //本次计时器值
-    ulSPD3Tick = tick;                                  //保存计时器
-    wReg[32] = wReg[30] - wReg[34];                     //本次角度变化量
-    if (wReg[30] < 1024 && wReg[34] > 3072)
+    SPD3_CUR_ANG = SPD3_buffer[3] << 0x08 | SPD3_buffer[4]; //本次编码器值
+    SPD3_CUR_TICK = tick - ulSPD3Tick;                      //本次计时器值
+    ulSPD3Tick = tick;                                      //保存计时器
+    SPD3_CUR_DETA = SPD3_CUR_ANG - SPD3_LST_ANG;            //本次角度变化量
+    if (SPD3_CUR_ANG < 1024 && SPD3_LST_ANG > 3072)
     {
-        wReg[32] = wReg[30] - wReg[34] + 4096;
+        SPD3_CUR_DETA = SPD3_CUR_ANG - SPD3_LST_ANG + 4096;
     }
-    if (wReg[30] > 3072 && wReg[34] < 1024)
+    if (SPD3_CUR_ANG > 3072 && SPD3_LST_ANG < 1024)
     {
-        wReg[32] = wReg[30] - wReg[34] - 4096;
+        SPD3_CUR_DETA = SPD3_CUR_ANG - SPD3_LST_ANG - 4096;
     }
-    if (wReg[31] != 0)
-        wReg[33] = wReg[32] * 1000 / wReg[31]; //本次速度
+    if (SPD3_CUR_TICK != 0)
+        SPD3_CUR_SPD = SPD3_CUR_DETA * 1000 / SPD3_CUR_TICK; //本次速度
 
-    SpdQueueIn(&qSPD3, wReg[32], wReg[31]);
-    wReg[37] = SpdQueueAvgVal(&qSPD3); //10次平均速度
+    SpdQueueIn(&qSPD3, SPD3_CUR_DETA, SPD3_CUR_TICK);
+    SPD3_AVG_SPD = SpdQueueAvgVal(&qSPD3); //10次平均速度
 
-    wReg[39]++;
+    SPD3_COM_SUCS++;
     SPD3_bRecv = 0;
     SPD3_curptr = 0;
 }

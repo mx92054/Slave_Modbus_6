@@ -30,6 +30,23 @@
 #define SPD3_USART_IRQ USART2_IRQn
 #define SPD3_USART_IRQHandler USART2_IRQHandler
 
+//----------------------------------------------------------------
+#define SPD3_BAUDRATE wReg[115]  //3#编码器通信速度
+#define SPD3_STATION wReg[116]   //3#编码器站地址
+#define SPD3_START_ADR wReg[117] //3#编码器参数首地址
+#define SPD3_REG_LEN wReg[118]   //3#编码器参数长度
+
+#define SPD3_CUR_ANG wReg[30]  //3#编码器当前角度
+#define SPD3_CUR_TICK wReg[31] //3#编码器当前角度
+#define SPD3_CUR_DETA wReg[32] //3#编码器当前角度
+#define SPD3_CUR_SPD wReg[33]  //3#编码器当前角度
+#define SPD3_LST_ANG wReg[34]  //3#编码器当前角度
+#define SPD3_LST_TICK wReg[35] //3#编码器当前角度
+#define SPD3_LST_DETA wReg[36] //3#编码器当前角度
+#define SPD3_AVG_SPD wReg[37]  //3#编码器当前角度
+#define SPD3_COM_FAIL wReg[38] //3#编码器当前角度
+#define SPD3_COM_SUCS wReg[39] //3#编码器当前角度
+
 void SPD3_Init(void);
 void SPD3_TxCmd(void);
 void SPD3_Task(void);

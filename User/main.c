@@ -14,7 +14,7 @@
 #include "stm32f4xx.h"
 #include "SysTick.h"
 #include "Modbus_svr.h"
-#include "usart_alt.h"
+#include "usart_dpt.h"
 #include "usart_spd1.h"
 #include "usart_spd2.h"
 #include "usart_spd3.h"
@@ -32,7 +32,7 @@ int main(void)
 	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg); //通信寄存器初始化
 
 	Modbus_init(); //上位机通信初始化
-	ALT_Init();	//高度计通信初始化
+	DPT_Init();		//深度计通信初始化
 	SPD1_Init();   //1#编码器通信初始化
 	SPD2_Init();   //2#编码器通信初始化
 	SPD3_Init();   //3#编码器通信初始化
@@ -47,7 +47,7 @@ int main(void)
 	while (1)
 	{
 		Modbus_task(); //通信出来进程
-		ALT_Task();
+		DPT_Task();
 		SPD1_Task();
 		SPD2_Task();
 		SPD3_Task();
@@ -64,11 +64,6 @@ int main(void)
 		{
 			Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg); //保存修改过的寄存器
 			bSaved = 0;
-		}
-
-		if (GetTimer(2))
-		{
-			ALT_TxCmd(); //向深度计发读取指令
 		}
 
 		if (GetTimer(3))
