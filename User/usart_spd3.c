@@ -169,10 +169,10 @@ void SPD3_Task(void)
     if (SPD3_curptr < SPD3_frame_len)
         return;
 
-    if (SPD3_buffer[0] != wReg[108] || SPD3_buffer[1] != 0x03) //站地址判断
+    if (SPD3_buffer[0] != SPD3_STATION || SPD3_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD3_buffer[2] != 2 * wReg[110]) //数值长度判读
+    if (SPD3_buffer[2] != 2 * SPD3_REG_LEN) //数值长度判读
         return;
 
     tick = GetCurTick();

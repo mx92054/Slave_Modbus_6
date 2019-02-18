@@ -30,9 +30,11 @@ int main(void)
 	SysTick_Init();											//tick定时器初始
 	GPIO_Config();											//GPIO初始化
 	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg); //通信寄存器初始化
+	wReg[102]++;											//启动次数加1
+	bSaved = 1;												//保存到EPROM
 
 	Modbus_init(); //上位机通信初始化
-	DPT_Init();		//深度计通信初始化
+	DPT_Init();	//深度计通信初始化
 	SPD1_Init();   //1#编码器通信初始化
 	SPD2_Init();   //2#编码器通信初始化
 	SPD3_Init();   //3#编码器通信初始化

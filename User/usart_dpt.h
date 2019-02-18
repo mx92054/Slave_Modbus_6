@@ -5,7 +5,7 @@
 
 //  COM1 Define
 
-#define USART_DPT                        			USART6
+#define USART_DPT USART6
 
 /* 不同的串口挂载的总线不一样，时钟使能函数也不一样，移植时要注意 
  * 串口1和6是      RCC_APB2PeriphClockCmd
@@ -30,11 +30,16 @@
 #define DPT_USART_IRQ USART6_IRQn
 #define DPT_USART_IRQHandler USART6_IRQHandler
 
+//--------------------------------------------------------------------
+#define DPT_SAVE_ADR 0         // DPTE传感器参数在wReg中的起始地址
+#define DPT_BAUDRATE wReg[103] //通信波特率
+#define DPT_COM_FAIL wReg[8]   //通信失败次数
+#define DPT_COM_SUCS wReg[9]   //通信成功次数
 
-void 	DPT_Init(void) ;
-void	DPT_Task(void) ;
+void DPT_Init(void);
+void DPT_Task(void);
 
-void 	DPT_USART_IRQHandler(void) ;
+void DPT_USART_IRQHandler(void);
 
 #endif
 

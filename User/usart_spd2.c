@@ -169,10 +169,10 @@ void SPD2_Task(void)
     if (SPD2_curptr < SPD2_frame_len)
         return;
 
-    if (SPD2_buffer[0] != wReg[108] || SPD2_buffer[1] != 0x03) //站地址判断
+    if (SPD2_buffer[0] != SPD2_STATION || SPD2_buffer[1] != 0x03) //站地址判断
         return;
 
-    if (SPD2_buffer[2] != 2 * wReg[110]) //数值长度判读
+    if (SPD2_buffer[2] != 2 * SPD2_REG_LEN) //数值长度判读
         return;
 
     tick = GetCurTick();
