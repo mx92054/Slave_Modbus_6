@@ -71,6 +71,7 @@ void PIDMod_initialize(PID_Module *pPid, int no)
     pPid->paraDnLmt = wReg[no + 5];
     pPid->paraResver = wReg[no + 6];
     pPid->paraAuto = wReg[no + 7];
+    pPid->paraManVal = wReg[no + 8];
 
     pPid->vOutL1 = 0;
     pPid->vOutL2 = 0;
@@ -84,7 +85,10 @@ void PIDMod_step(PID_Module *pPid)
     short curDelta;
 
     if (!pPid->paraAuto)
+    {
+        pPid->valOut = pPid->paraManVal ;
         return;
+    }
 
     curDelta = pPid->valIn - pPid->paraSet; //当前偏差值
     pid_u = pPid->paraP * (curDelta - pPid->sDeltaL1 +
@@ -104,7 +108,7 @@ void PIDMod_step(PID_Module *pPid)
     }
 
     //输出值限幅，避免调节器饱和
-    if (pPid->paraDnLmt != 0)
+    if (pPid->paraUpLmt != 0)
     {
         lmt = pPid->paraUpLmt * 1000;
         if (pid_out > lmt)
@@ -128,6 +132,7 @@ void PIDMod_update_para(PID_Module *pPid, int no)
     pPid->paraDnLmt = wReg[no + 5];
     pPid->paraResver = wReg[no + 6];
     pPid->paraAuto = wReg[no + 7];
+    pPid->paraManVal = wReg[no + 8];
 }
 
 /*------------------end of file------------------------*/

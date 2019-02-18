@@ -44,6 +44,7 @@
 ..\..\output\main.o: ..\..\User\usart_spd1.h
 ..\..\output\main.o: ..\..\User\usart_spd2.h
 ..\..\output\main.o: ..\..\User\usart_spd3.h
+..\..\output\main.o: ..\..\User\usart_dam.h
 ..\..\output\main.o: ..\..\User\gpio.h
 ..\..\output\main.o: ..\..\User\bsp_innerflash.h
 ..\..\output\main.o: ..\..\User\spd_comm.h

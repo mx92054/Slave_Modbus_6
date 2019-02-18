@@ -18,6 +18,7 @@
 #include "usart_spd1.h"
 #include "usart_spd2.h"
 #include "usart_spd3.h"
+#include "usart_dam.h"
 #include "gpio.h"
 #include "bsp_innerflash.h"
 
@@ -29,7 +30,6 @@ extern u8 bChanged;
 PID_Module pid1;
 PID_Module pid2;
 PID_Module pid3;
-
 
 int main(void)
 {
@@ -45,10 +45,11 @@ int main(void)
 	SPD1_Init();   //1#编码器通信初始化
 	SPD2_Init();   //2#编码器通信初始化
 	SPD3_Init();   //3#编码器通信初始化
+	DAM_Init();	//模拟量输出板初始化
 
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
-	SetTimer(2, 1000);
+	SetTimer(2, 100);
 	SetTimer(3, 100);
 
 	IWDG_Configuration(); //看门狗初始
@@ -63,6 +64,7 @@ int main(void)
 		SPD1_Task();
 		SPD2_Task();
 		SPD3_Task();
+		DAM_Task();
 
 		if (GetTimer(0))
 		{
@@ -83,24 +85,25 @@ int main(void)
 
 		if (GetTimer(2))
 		{
-			pid1.valIn =  wReg[17] ;
-			PIDMod_step(&pid1) ;
-			wReg[128] = pid1.valOut ;
+			pid1.valIn = wReg[17];
+			PIDMod_step(&pid1);
+			wReg[40] = pid1.valOut;
 
-			pid2.valIn =  wReg[27] ;
-			PIDMod_step(&pid2) ;
-			wReg[138] = pid2.valOut ;			
-			
-			pid3.valIn =  wReg[37] ;
-			PIDMod_step(&pid3) ;
-			wReg[148] = pid3.valOut ;		
-			}
+			pid2.valIn = wReg[27];
+			PIDMod_step(&pid2);
+			wReg[41] = pid2.valOut;
+
+			pid3.valIn = wReg[37];
+			PIDMod_step(&pid3);
+			wReg[42] = pid3.valOut;
+		}
 
 		if (GetTimer(3))
 		{
 			SPD1_TxCmd(); //向1#编码器发读取指令
 			SPD2_TxCmd(); //向2#编码器发读取指令
 			SPD3_TxCmd(); //向3#编码器发读取指令
+			DAM_TxCmd();  //向模拟量输出板发出指令
 		}
 	}
 }

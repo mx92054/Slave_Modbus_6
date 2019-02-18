@@ -25,10 +25,11 @@ typedef struct _tag_PID_Module
     short paraD; //参数：微分
 
     short paraSet;    //参数：设定值
-    short paraUpLmt; //参数：输出上限值
-    short paraDnLmt; //参数：输出下限值
+    short paraUpLmt;  //参数：输出上限值
+    short paraDnLmt;  //参数：输出下限值
     short paraResver; //参数：作用方式
     short paraAuto;   //参数：调节器工作
+    short paraManVal; //参数：手动值
 
     short valIn;  //参数输入值
     short valOut; //参数输出值
