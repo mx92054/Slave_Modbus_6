@@ -2,6 +2,7 @@
 #include "Modbus_svr.h"
 #include <stdio.h>
 #include "stm32f4xx_conf.h"
+#include "SysTick.h"
 
 extern u16 wReg[];
 
@@ -9,8 +10,11 @@ char DPT_buffer[256];
 u8 DPT_curptr;
 u8 DPT_bRecv;
 
-float fDepth, fPres, fTemp;
+float fDepth;
 float fHead, fPitch, fRoll;
+
+u32  ulLastDptTicks, ulLastHprTicks ;
+
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -49,7 +53,7 @@ static void DPT_Config(short baud)
 	RCC_AHB1PeriphClockCmd(DPT_USART_RX_GPIO_CLK | DPT_USART_TX_GPIO_CLK, ENABLE);
 
 	/* 使能 USART 时钟 */
-	RCC_APB1PeriphClockCmd(DPT_USART_CLK, ENABLE);
+	RCC_APB2PeriphClockCmd(DPT_USART_CLK, ENABLE);
 
 	/* GPIO初始化 */
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -113,7 +117,6 @@ void DPT_Init(void)
 
 	DPT_curptr = 0;
 	DPT_bRecv = 0;
-	DPT_COM_FAIL = 0;
 }
 
 //-------------------------------------------------------------------------------
@@ -126,32 +129,38 @@ void DPT_Init(void)
 void DPT_Task(void)
 {
 	int bErr;
+	u32 tick ;
 
 	if (DPT_bRecv == 0) // 未收到深度计信息帧，错误计数器加１
 	{
-		DPT_COM_FAIL++;
 		return;
 	}
 
-	if (DPT_buffer[3] == 'D') //　　是深度帧
+	wReg[9]++ ;
+	if (DPT_buffer[1] == 'P') //　　是深度帧
 	{
-		bErr = sscanf(DPT_buffer, "$ISDPT, %f,M,%f,B,%f,C*", &fDepth, &fPres, &fTemp);
-		if (bErr == 3)
+		wReg[9]++ ;
+		bErr = sscanf(DPT_buffer, "$PIPS,%f,M*", &fDepth);
+		if (bErr == 1)
 		{
+			tick = GetCurTick() ;
 			wReg[DPT_SAVE_ADR] = (u16)(fDepth * 10);
-			wReg[DPT_SAVE_ADR + 1] = (u16)(fPres * 10);
-			wReg[DPT_SAVE_ADR + 2] = (u16)(fTemp * 10);
+			wReg[DPT_SAVE_ADR + 1] = tick - ulLastDptTicks ;
+			ulLastDptTicks = tick ;		
 		}
 	}
 
-	if (DPT_buffer[3] == 'H') //　　是姿态帧
+	if (DPT_buffer[1] == 'C') //　　是姿态帧
 	{
-		bErr = sscanf(DPT_buffer, "$ISHPR, %f,%f,%f*", &fHead, &fPitch, &fRoll);
+		bErr = sscanf(DPT_buffer, "$C%fP%fR%f*", &fHead, &fPitch, &fRoll);
 		if (bErr == 3)
 		{
-			wReg[DPT_SAVE_ADR + 3] = (u16)(fHead * 10);
-			wReg[DPT_SAVE_ADR + 4] = (u16)(fPitch * 10);
-			wReg[DPT_SAVE_ADR + 5] = (u16)(fRoll * 10);
+			tick = GetCurTick() ;
+			wReg[DPT_SAVE_ADR + 2] = (u16)(fHead * 10);
+			wReg[DPT_SAVE_ADR + 3] = (u16)(fPitch * 10);
+			wReg[DPT_SAVE_ADR + 4] = (u16)(fRoll * 10);
+			wReg[DPT_SAVE_ADR + 5] = tick - ulLastHprTicks ;
+			ulLastHprTicks = tick ;
 		}
 	}
 
@@ -173,7 +182,7 @@ void DPT_USART_IRQHandler(void)
 	{
 		ch = USART_ReceiveData(USART_DPT); //将读寄存器的数据缓存到接收缓冲区里
 
-		if (ch == '*' && DPT_curptr > 20 && DPT_bRecv == 0) // Is tail of frame?
+		if (ch == '*' && DPT_curptr > 10 && DPT_bRecv == 0) // Is tail of frame?
 		{
 			DPT_buffer[DPT_curptr++] = ch;
 			DPT_buffer[DPT_curptr] = 0;
@@ -186,6 +195,7 @@ void DPT_USART_IRQHandler(void)
 		if (ch == '$' && DPT_curptr == 0 && DPT_bRecv == 0) // need receive frame
 		{
 			DPT_buffer[DPT_curptr++] = ch;
+			wReg[7] ++ ;
 		}
 	}
 

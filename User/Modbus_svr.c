@@ -343,7 +343,8 @@ u8 Modbus_Procotol_Chain(void)
 			return 2; //ILLEGAL DATA ADDRESS
 
 		wReg[reg_adr] = data_len;
-		bSaved = 1;
+		if ( reg_adr >= 100 )
+			bSaved = 1;
 
 		// 改写了命令寄存器，需要向下位机发送命令
 		if (reg_adr >= 100 && reg_adr <= 120)
@@ -367,7 +368,8 @@ u8 Modbus_Procotol_Chain(void)
 			*ptrReg |= (*ptr++);
 			ptrReg++;
 		}
-		bSaved = 1;
+		if ( reg_adr >= 100 )
+			bSaved = 1;
 
 		// 改写了命令寄存器，需要向下位机发送命令
 		if (reg_adr >= 100 && reg_adr < 120)

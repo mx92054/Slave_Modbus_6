@@ -21,17 +21,24 @@
 #include "gpio.h"
 #include "bsp_innerflash.h"
 
+#include "spd_comm.h"
+
 extern short wReg[];
 extern u8 bChanged;
+
+PID_Module pid1;
+PID_Module pid2;
+PID_Module pid3;
+
 
 int main(void)
 {
 
-	SysTick_Init();											//tick定时器初始
-	GPIO_Config();											//GPIO初始化
-	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 200, wReg); //通信寄存器初始化
-	wReg[102]++;											//启动次数加1
-	bSaved = 1;												//保存到EPROM
+	SysTick_Init();												  //tick定时器初始
+	GPIO_Config();												  //GPIO初始化
+	Flash_Read16BitDatas(FLASH_USER_START_ADDR, 100, &wReg[100]); //通信寄存器初始化
+	wReg[102]++;												  //启动次数加1
+	bSaved = 1;													  //保存到EPROM
 
 	Modbus_init(); //上位机通信初始化
 	DPT_Init();	//深度计通信初始化
@@ -41,10 +48,13 @@ int main(void)
 
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
-	SetTimer(2, 200);
+	SetTimer(2, 1000);
 	SetTimer(3, 100);
 
 	IWDG_Configuration(); //看门狗初始
+	PIDMod_initialize(&pid1, 120);
+	PIDMod_initialize(&pid2, 130);
+	PIDMod_initialize(&pid3, 140);
 
 	while (1)
 	{
@@ -64,9 +74,27 @@ int main(void)
 
 		if (GetTimer(1) && bSaved)
 		{
-			Flash_Write16BitDatas(FLASH_USER_START_ADDR, 200, wReg); //保存修改过的寄存器
+			Flash_Write16BitDatas(FLASH_USER_START_ADDR, 100, &wReg[100]); //保存修改过的寄存器
+			PIDMod_update_para(&pid1, 120);
+			PIDMod_update_para(&pid2, 130);
+			PIDMod_update_para(&pid3, 140);
 			bSaved = 0;
 		}
+
+		if (GetTimer(2))
+		{
+			pid1.valIn =  wReg[17] ;
+			PIDMod_step(&pid1) ;
+			wReg[128] = pid1.valOut ;
+
+			pid2.valIn =  wReg[27] ;
+			PIDMod_step(&pid2) ;
+			wReg[138] = pid2.valOut ;			
+			
+			pid3.valIn =  wReg[37] ;
+			PIDMod_step(&pid3) ;
+			wReg[148] = pid3.valOut ;		
+			}
 
 		if (GetTimer(3))
 		{

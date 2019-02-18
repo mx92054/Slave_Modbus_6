@@ -33,7 +33,6 @@
 //--------------------------------------------------------------------
 #define DPT_SAVE_ADR 0         // DPTE传感器参数在wReg中的起始地址
 #define DPT_BAUDRATE wReg[103] //通信波特率
-#define DPT_COM_FAIL wReg[8]   //通信失败次数
 #define DPT_COM_SUCS wReg[9]   //通信成功次数
 
 void DPT_Init(void);
