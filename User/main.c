@@ -51,11 +51,12 @@ int main(void)
 	SetTimer(1, 1000);
 	SetTimer(2, 100);
 	SetTimer(3, 100);
+	SetTimer(4, 200);
 
 	IWDG_Configuration(); //看门狗初始
-	PIDMod_initialize(&pid1, 120);
-	PIDMod_initialize(&pid2, 130);
-	PIDMod_initialize(&pid3, 140);
+	PIDMod_initialize(&pid1, 130);
+	PIDMod_initialize(&pid2, 140);
+	PIDMod_initialize(&pid3, 150);
 
 	while (1)
 	{
@@ -77,25 +78,14 @@ int main(void)
 		if (GetTimer(1) && bSaved)
 		{
 			Flash_Write16BitDatas(FLASH_USER_START_ADDR, 100, &wReg[100]); //保存修改过的寄存器
-			PIDMod_update_para(&pid1, 120);
-			PIDMod_update_para(&pid2, 130);
-			PIDMod_update_para(&pid3, 140);
 			bSaved = 0;
 		}
 
 		if (GetTimer(2))
 		{
-			pid1.valIn = wReg[17];
 			PIDMod_step(&pid1);
-			wReg[40] = pid1.valOut;
-
-			pid2.valIn = wReg[27];
 			PIDMod_step(&pid2);
-			wReg[41] = pid2.valOut;
-
-			pid3.valIn = wReg[37];
 			PIDMod_step(&pid3);
-			wReg[42] = pid3.valOut;
 		}
 
 		if (GetTimer(3))
@@ -103,6 +93,10 @@ int main(void)
 			SPD1_TxCmd(); //向1#编码器发读取指令
 			SPD2_TxCmd(); //向2#编码器发读取指令
 			SPD3_TxCmd(); //向3#编码器发读取指令
+		}
+
+		if (GetTimer(4))
+		{
 			DAM_TxCmd();  //向模拟量输出板发出指令
 		}
 	}

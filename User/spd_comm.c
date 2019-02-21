@@ -63,15 +63,7 @@ short SpdQueueAvgVal(SpeedValueQueue *svq)
  ****************************************************************/
 void PIDMod_initialize(PID_Module *pPid, int no)
 {
-    pPid->paraP = wReg[no];
-    pPid->paraI = wReg[no + 1];
-    pPid->paraD = wReg[no + 2];
-    pPid->paraSet = wReg[no + 3];
-    pPid->paraUpLmt = wReg[no + 4];
-    pPid->paraDnLmt = wReg[no + 5];
-    pPid->paraResver = wReg[no + 6];
-    pPid->paraAuto = wReg[no + 7];
-    pPid->paraManVal = wReg[no + 8];
+    pPid->pParaAdr = &wReg[no];
 
     pPid->vOutL1 = 0;
     pPid->vOutL2 = 0;
@@ -81,58 +73,67 @@ void PIDMod_initialize(PID_Module *pPid, int no)
 
 void PIDMod_step(PID_Module *pPid)
 {
-    int pid_u, pid_out, lmt;
-    short curDelta;
+    long int pid_u, pid_out;
+    long int curDelta, tmp, val;
+    //float pid_u, pid_out ;
+    //float curDelta, tmp, val ;
 
-    if (!pPid->paraAuto)
+    if (!pPid->pParaAdr[9])
     {
-        pPid->valOut = pPid->paraManVal ;
         return;
     }
 
-    curDelta = pPid->valIn - pPid->paraSet; //当前偏差值
-    pid_u = pPid->paraP * (curDelta - pPid->sDeltaL1 +
-                           pPid->paraI * pPid->sDeltaL1 +
-                           pPid->paraD * (curDelta - 2 * pPid->sDeltaL1 + pPid->sDeltaL2));
+    if (pPid->pParaAdr[0] > 100 || pPid->pParaAdr[0] < 0)
+        pPid->pParaAdr[0] = 0;
+    if (pPid->pParaAdr[1] >= 200 || pPid->pParaAdr[1] < 100)
+        pPid->pParaAdr[1] = 199;
+
+    tmp = wReg[pPid->pParaAdr[0]];
+    tmp = tmp * pPid->pParaAdr[2] / 100;
+    curDelta = tmp - pPid->pParaAdr[3]; //当前偏差值
+
+    pid_u = pPid->pParaAdr[4] * (curDelta - pPid->sDeltaL1 +
+                                 pPid->pParaAdr[5] * pPid->sDeltaL1 +
+                                 pPid->pParaAdr[6] * (curDelta - 2 * pPid->sDeltaL1 + pPid->sDeltaL2));
     pPid->sDeltaL2 = pPid->sDeltaL1;
     pPid->sDeltaL1 = curDelta;
 
+    wReg[124] = pid_u & 0xFFFF00 >> 16;
+    wReg[125] = pid_u & 0x0000FFF;
+
     pid_out = pPid->vOutL1;
-    if (pPid->paraResver) //根据作用方式确定是增量还是减量
-    {
-        pid_out += pid_u;
-    }
-    else
+    if (pPid->pParaAdr[8] == 0) //根据作用方式确定是增量还是减量
     {
         pid_out -= pid_u;
     }
-
-    //输出值限幅，避免调节器饱和
-    if (pPid->paraUpLmt != 0)
+    else
     {
-        lmt = pPid->paraUpLmt * 1000;
-        if (pid_out > lmt)
-            pid_out = lmt;
-        if (pid_out < -lmt)
-            pid_out = -lmt;
+        pid_out += pid_u;
     }
 
-    pPid->valOut = pid_out / 1000;
+     //输出值限幅，避免调节器饱和   
+     if (pid_out > PID_MAX_OUT)
+        pid_out = PID_MAX_OUT;
+    if (pid_out < -PID_MAX_OUT)
+        pid_out = -PID_MAX_OUT;
+
+    //输出变换
+    tmp = 0x8000 * pPid->pParaAdr[7] / 100 -1;
+    val = pid_out / 1000;
+    wReg[124] = (val & 0xFFFF0000) >> 16;
+    wReg[125] = val & 0x0000FFFF;
+    if (val > tmp)
+        val = tmp ;
+    if (val < -tmp)
+        val = -tmp;
+
+    wReg[126] = (val & 0xFFFF0000) >> 16;
+    wReg[127] = val & 0x0000FFFF;
+
+    wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
+
     pPid->vOutL2 = pPid->vOutL1;
     pPid->vOutL1 = pid_out;
-}
-
-void PIDMod_update_para(PID_Module *pPid, int no)
-{
-    pPid->paraP = wReg[no];
-    pPid->paraI = wReg[no + 1];
-    pPid->paraD = wReg[no + 2];
-    pPid->paraSet = wReg[no + 3];
-    pPid->paraUpLmt = wReg[no + 4];
-    pPid->paraDnLmt = wReg[no + 5];
-    pPid->paraResver = wReg[no + 6];
-    pPid->paraAuto = wReg[no + 7];
-    pPid->paraManVal = wReg[no + 8];
 }
 
 /*------------------end of file------------------------*/

@@ -36,10 +36,10 @@
 #define DAM_START_ADR 0        //模拟量输出板参数首地址
 #define DAM_REG_LEN 1          //模拟量输出板参数长度
 
-#define DAM_DA_CHN1 wReg[40]  //模拟量输出板通道1
-#define DAM_DA_CHN2 wReg[41]  //模拟量输出板通道2
-#define DAM_DA_CHN3 wReg[42]  //模拟量输出板通道3
-#define DAM_DA_CHN4 wReg[43]  //模拟量输出板通道4
+#define DAM_DA_CHN1 wReg[120]  //模拟量输出板通道1
+#define DAM_DA_CHN2 wReg[121]  //模拟量输出板通道2
+#define DAM_DA_CHN3 wReg[122]  //模拟量输出板通道3
+#define DAM_DA_CHN4 wReg[123]  //模拟量输出板通道4
 #define DAM_CUR_DETA wReg[44] //模拟量输出板当前角度
 #define DAM_COM_FAIL wReg[48] //模拟量输出板当前角度
 #define DAM_COM_SUCS wReg[49] //模拟量输出板当前角度

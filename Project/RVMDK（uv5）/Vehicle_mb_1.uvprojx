@@ -709,6 +709,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\User\usart_dpt.c</FilePath>
             </File>
+            <File>
+              <FileName>usart_dam.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\usart_dam.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
