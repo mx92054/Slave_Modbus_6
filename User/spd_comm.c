@@ -75,8 +75,6 @@ void PIDMod_step(PID_Module *pPid)
 {
     long int pid_u, pid_out;
     long int curDelta, tmp, val;
-    //float pid_u, pid_out ;
-    //float curDelta, tmp, val ;
 
     if (pPid->pParaAdr[9] == 0)
         return;
@@ -87,8 +85,7 @@ void PIDMod_step(PID_Module *pPid)
         pPid->pParaAdr[1] = 199;
 
     tmp = wReg[pPid->pParaAdr[0]];
-    tmp = tmp * pPid->pParaAdr[2] / 100;
-    curDelta = tmp - pPid->pParaAdr[3]; //当前偏差值
+    curDelta = (pPid->pParaAdr[3] - tmp)*pPid->pParaAdr[2] / 100;; //当前偏差值
 
     pid_u = pPid->pParaAdr[4] * (curDelta - pPid->sDeltaL1 +
                                  pPid->pParaAdr[5] * pPid->sDeltaL1 +
