@@ -120,16 +120,11 @@ void PIDMod_step(PID_Module *pPid)
     //输出变换
     tmp = 0x8000 * pPid->pParaAdr[7] / 100 - 1;
     val = pid_out / 1000;
-    wReg[124] = (val & 0xFFFF0000) >> 16;
-    wReg[125] = val & 0x0000FFFF;
 
     if (val > tmp)
         val = tmp;
     if (val < -tmp)
         val = -tmp;
-
-    wReg[126] = (val & 0xFFFF0000) >> 16;
-    wReg[127] = val & 0x0000FFFF;
 
     switch (pPid->pParaAdr[9])
     {

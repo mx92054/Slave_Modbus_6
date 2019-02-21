@@ -1898,72 +1898,72 @@ Image Symbol Table
     i.Normal_response                        0x080019e4   Section        0  modbus_svr.o(i.Normal_response)
     i.PIDMod_initialize                      0x08001a38   Section        0  spd_comm.o(i.PIDMod_initialize)
     i.PIDMod_step                            0x08001a50   Section        0  spd_comm.o(i.PIDMod_step)
-    i.PendSV_Handler                         0x08001b94   Section        0  stm32f4xx_it.o(i.PendSV_Handler)
-    i.RCC_AHB1PeriphClockCmd                 0x08001b98   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
-    i.RCC_APB1PeriphClockCmd                 0x08001bb4   Section        0  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
-    i.RCC_APB2PeriphClockCmd                 0x08001bd0   Section        0  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
-    i.RCC_GetClocksFreq                      0x08001bec   Section        0  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
-    i.SPD1_Config                            0x08001c90   Section        0  usart_spd1.o(i.SPD1_Config)
-    SPD1_Config                              0x08001c91   Thumb Code   160  usart_spd1.o(i.SPD1_Config)
-    i.SPD1_Init                              0x08001d38   Section        0  usart_spd1.o(i.SPD1_Init)
-    i.SPD1_NVIC_Configuration                0x08001d94   Section        0  usart_spd1.o(i.SPD1_NVIC_Configuration)
-    SPD1_NVIC_Configuration                  0x08001d95   Thumb Code    40  usart_spd1.o(i.SPD1_NVIC_Configuration)
-    i.SPD1_Task                              0x08001dbc   Section        0  usart_spd1.o(i.SPD1_Task)
-    i.SPD1_TxCmd                             0x08001e80   Section        0  usart_spd1.o(i.SPD1_TxCmd)
-    i.SPD2_Config                            0x08001ef8   Section        0  usart_spd2.o(i.SPD2_Config)
-    SPD2_Config                              0x08001ef9   Thumb Code   160  usart_spd2.o(i.SPD2_Config)
-    i.SPD2_Init                              0x08001fa0   Section        0  usart_spd2.o(i.SPD2_Init)
-    i.SPD2_NVIC_Configuration                0x08001ffc   Section        0  usart_spd2.o(i.SPD2_NVIC_Configuration)
-    SPD2_NVIC_Configuration                  0x08001ffd   Thumb Code    40  usart_spd2.o(i.SPD2_NVIC_Configuration)
-    i.SPD2_Task                              0x08002024   Section        0  usart_spd2.o(i.SPD2_Task)
-    i.SPD2_TxCmd                             0x080020e8   Section        0  usart_spd2.o(i.SPD2_TxCmd)
-    i.SPD3_Config                            0x08002160   Section        0  usart_spd3.o(i.SPD3_Config)
-    SPD3_Config                              0x08002161   Thumb Code   160  usart_spd3.o(i.SPD3_Config)
-    i.SPD3_Init                              0x08002208   Section        0  usart_spd3.o(i.SPD3_Init)
-    i.SPD3_NVIC_Configuration                0x08002264   Section        0  usart_spd3.o(i.SPD3_NVIC_Configuration)
-    SPD3_NVIC_Configuration                  0x08002265   Thumb Code    40  usart_spd3.o(i.SPD3_NVIC_Configuration)
-    i.SPD3_Task                              0x0800228c   Section        0  usart_spd3.o(i.SPD3_Task)
-    i.SPD3_TxCmd                             0x08002358   Section        0  usart_spd3.o(i.SPD3_TxCmd)
-    i.SVC_Handler                            0x080023d4   Section        0  stm32f4xx_it.o(i.SVC_Handler)
-    i.SetSysClock                            0x080023d8   Section        0  system_stm32f4xx.o(i.SetSysClock)
-    SetSysClock                              0x080023d9   Thumb Code   196  system_stm32f4xx.o(i.SetSysClock)
-    i.SetTimer                               0x080024ac   Section        0  systick.o(i.SetTimer)
-    i.SpdQueueAvgVal                         0x080024c4   Section        0  spd_comm.o(i.SpdQueueAvgVal)
-    i.SpdQueueIn                             0x080024de   Section        0  spd_comm.o(i.SpdQueueIn)
-    i.SpdQueueInit                           0x0800251e   Section        0  spd_comm.o(i.SpdQueueInit)
-    i.SysTick_Handler                        0x0800253c   Section        0  systick.o(i.SysTick_Handler)
-    i.SysTick_Init                           0x0800257c   Section        0  systick.o(i.SysTick_Init)
-    i.SystemInit                             0x080025e4   Section        0  system_stm32f4xx.o(i.SystemInit)
-    i.UART4_IRQHandler                       0x08002640   Section        0  usart_dam.o(i.UART4_IRQHandler)
-    i.UART7_IRQHandler                       0x08002690   Section        0  usart_spd2.o(i.UART7_IRQHandler)
-    i.USART1_IRQHandler                      0x080026e0   Section        0  modbus_svr.o(i.USART1_IRQHandler)
-    i.USART2_IRQHandler                      0x08002748   Section        0  usart_spd3.o(i.USART2_IRQHandler)
-    i.USART3_IRQHandler                      0x08002798   Section        0  usart_spd1.o(i.USART3_IRQHandler)
-    i.USART6_IRQHandler                      0x080027e8   Section        0  usart_dpt.o(i.USART6_IRQHandler)
-    i.USART_Cmd                              0x08002878   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
-    i.USART_GetFlagStatus                    0x08002890   Section        0  stm32f4xx_usart.o(i.USART_GetFlagStatus)
-    i.USART_GetITStatus                      0x0800289e   Section        0  stm32f4xx_usart.o(i.USART_GetITStatus)
-    i.USART_ITConfig                         0x080028de   Section        0  stm32f4xx_usart.o(i.USART_ITConfig)
-    i.USART_Init                             0x08002914   Section        0  stm32f4xx_usart.o(i.USART_Init)
-    i.USART_ReceiveData                      0x080029d0   Section        0  stm32f4xx_usart.o(i.USART_ReceiveData)
-    i.USART_SendData                         0x080029d8   Section        0  stm32f4xx_usart.o(i.USART_SendData)
-    i.UsageFault_Handler                     0x080029e0   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
-    i.Usart_SendByte                         0x080029e2   Section        0  modbus_svr.o(i.Usart_SendByte)
-    i.Usart_SendBytes                        0x080029fa   Section        0  modbus_svr.o(i.Usart_SendBytes)
-    i.Usart_SendString                       0x08002a28   Section        0  modbus_svr.o(i.Usart_SendString)
-    i.__0sprintf$1                           0x08002a50   Section        0  printf1.o(i.__0sprintf$1)
-    i.__scatterload_copy                     0x08002a78   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08002a86   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08002a88   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i._is_digit                              0x08002a96   Section        0  scanf_fp.o(i._is_digit)
-    i._printf_core                           0x08002aa4   Section        0  printf1.o(i._printf_core)
-    _printf_core                             0x08002aa5   Thumb Code   336  printf1.o(i._printf_core)
-    i._sputc                                 0x08002bf8   Section        0  printf1.o(i._sputc)
-    _sputc                                   0x08002bf9   Thumb Code    10  printf1.o(i._sputc)
-    i.main                                   0x08002c04   Section        0  main.o(i.main)
-    .constdata                               0x08002d3c   Section      512  modbus_svr.o(.constdata)
-    wCRCTable                                0x08002d3c   Data         512  modbus_svr.o(.constdata)
-    .constdata                               0x08002f3c   Section       64  ctype_c.o(.constdata)
+    i.PendSV_Handler                         0x08001b7c   Section        0  stm32f4xx_it.o(i.PendSV_Handler)
+    i.RCC_AHB1PeriphClockCmd                 0x08001b80   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
+    i.RCC_APB1PeriphClockCmd                 0x08001b9c   Section        0  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
+    i.RCC_APB2PeriphClockCmd                 0x08001bb8   Section        0  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
+    i.RCC_GetClocksFreq                      0x08001bd4   Section        0  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
+    i.SPD1_Config                            0x08001c78   Section        0  usart_spd1.o(i.SPD1_Config)
+    SPD1_Config                              0x08001c79   Thumb Code   160  usart_spd1.o(i.SPD1_Config)
+    i.SPD1_Init                              0x08001d20   Section        0  usart_spd1.o(i.SPD1_Init)
+    i.SPD1_NVIC_Configuration                0x08001d7c   Section        0  usart_spd1.o(i.SPD1_NVIC_Configuration)
+    SPD1_NVIC_Configuration                  0x08001d7d   Thumb Code    40  usart_spd1.o(i.SPD1_NVIC_Configuration)
+    i.SPD1_Task                              0x08001da4   Section        0  usart_spd1.o(i.SPD1_Task)
+    i.SPD1_TxCmd                             0x08001e68   Section        0  usart_spd1.o(i.SPD1_TxCmd)
+    i.SPD2_Config                            0x08001ee0   Section        0  usart_spd2.o(i.SPD2_Config)
+    SPD2_Config                              0x08001ee1   Thumb Code   160  usart_spd2.o(i.SPD2_Config)
+    i.SPD2_Init                              0x08001f88   Section        0  usart_spd2.o(i.SPD2_Init)
+    i.SPD2_NVIC_Configuration                0x08001fe4   Section        0  usart_spd2.o(i.SPD2_NVIC_Configuration)
+    SPD2_NVIC_Configuration                  0x08001fe5   Thumb Code    40  usart_spd2.o(i.SPD2_NVIC_Configuration)
+    i.SPD2_Task                              0x0800200c   Section        0  usart_spd2.o(i.SPD2_Task)
+    i.SPD2_TxCmd                             0x080020d0   Section        0  usart_spd2.o(i.SPD2_TxCmd)
+    i.SPD3_Config                            0x08002148   Section        0  usart_spd3.o(i.SPD3_Config)
+    SPD3_Config                              0x08002149   Thumb Code   160  usart_spd3.o(i.SPD3_Config)
+    i.SPD3_Init                              0x080021f0   Section        0  usart_spd3.o(i.SPD3_Init)
+    i.SPD3_NVIC_Configuration                0x0800224c   Section        0  usart_spd3.o(i.SPD3_NVIC_Configuration)
+    SPD3_NVIC_Configuration                  0x0800224d   Thumb Code    40  usart_spd3.o(i.SPD3_NVIC_Configuration)
+    i.SPD3_Task                              0x08002274   Section        0  usart_spd3.o(i.SPD3_Task)
+    i.SPD3_TxCmd                             0x08002340   Section        0  usart_spd3.o(i.SPD3_TxCmd)
+    i.SVC_Handler                            0x080023bc   Section        0  stm32f4xx_it.o(i.SVC_Handler)
+    i.SetSysClock                            0x080023c0   Section        0  system_stm32f4xx.o(i.SetSysClock)
+    SetSysClock                              0x080023c1   Thumb Code   196  system_stm32f4xx.o(i.SetSysClock)
+    i.SetTimer                               0x08002494   Section        0  systick.o(i.SetTimer)
+    i.SpdQueueAvgVal                         0x080024ac   Section        0  spd_comm.o(i.SpdQueueAvgVal)
+    i.SpdQueueIn                             0x080024c6   Section        0  spd_comm.o(i.SpdQueueIn)
+    i.SpdQueueInit                           0x08002506   Section        0  spd_comm.o(i.SpdQueueInit)
+    i.SysTick_Handler                        0x08002524   Section        0  systick.o(i.SysTick_Handler)
+    i.SysTick_Init                           0x08002564   Section        0  systick.o(i.SysTick_Init)
+    i.SystemInit                             0x080025cc   Section        0  system_stm32f4xx.o(i.SystemInit)
+    i.UART4_IRQHandler                       0x08002628   Section        0  usart_dam.o(i.UART4_IRQHandler)
+    i.UART7_IRQHandler                       0x08002678   Section        0  usart_spd2.o(i.UART7_IRQHandler)
+    i.USART1_IRQHandler                      0x080026c8   Section        0  modbus_svr.o(i.USART1_IRQHandler)
+    i.USART2_IRQHandler                      0x08002730   Section        0  usart_spd3.o(i.USART2_IRQHandler)
+    i.USART3_IRQHandler                      0x08002780   Section        0  usart_spd1.o(i.USART3_IRQHandler)
+    i.USART6_IRQHandler                      0x080027d0   Section        0  usart_dpt.o(i.USART6_IRQHandler)
+    i.USART_Cmd                              0x08002860   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
+    i.USART_GetFlagStatus                    0x08002878   Section        0  stm32f4xx_usart.o(i.USART_GetFlagStatus)
+    i.USART_GetITStatus                      0x08002886   Section        0  stm32f4xx_usart.o(i.USART_GetITStatus)
+    i.USART_ITConfig                         0x080028c6   Section        0  stm32f4xx_usart.o(i.USART_ITConfig)
+    i.USART_Init                             0x080028fc   Section        0  stm32f4xx_usart.o(i.USART_Init)
+    i.USART_ReceiveData                      0x080029b8   Section        0  stm32f4xx_usart.o(i.USART_ReceiveData)
+    i.USART_SendData                         0x080029c0   Section        0  stm32f4xx_usart.o(i.USART_SendData)
+    i.UsageFault_Handler                     0x080029c8   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
+    i.Usart_SendByte                         0x080029ca   Section        0  modbus_svr.o(i.Usart_SendByte)
+    i.Usart_SendBytes                        0x080029e2   Section        0  modbus_svr.o(i.Usart_SendBytes)
+    i.Usart_SendString                       0x08002a10   Section        0  modbus_svr.o(i.Usart_SendString)
+    i.__0sprintf$1                           0x08002a38   Section        0  printf1.o(i.__0sprintf$1)
+    i.__scatterload_copy                     0x08002a60   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08002a6e   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08002a70   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i._is_digit                              0x08002a7e   Section        0  scanf_fp.o(i._is_digit)
+    i._printf_core                           0x08002a8c   Section        0  printf1.o(i._printf_core)
+    _printf_core                             0x08002a8d   Thumb Code   336  printf1.o(i._printf_core)
+    i._sputc                                 0x08002be0   Section        0  printf1.o(i._sputc)
+    _sputc                                   0x08002be1   Thumb Code    10  printf1.o(i._sputc)
+    i.main                                   0x08002bec   Section        0  main.o(i.main)
+    .constdata                               0x08002d24   Section      512  modbus_svr.o(.constdata)
+    wCRCTable                                0x08002d24   Data         512  modbus_svr.o(.constdata)
+    .constdata                               0x08002f24   Section       64  ctype_c.o(.constdata)
     .data                                    0x20000000   Section       20  system_stm32f4xx.o(.data)
     .data                                    0x20000014   Section       16  stm32f4xx_rcc.o(.data)
     APBAHBPrescTable                         0x20000014   Data          16  stm32f4xx_rcc.o(.data)
@@ -2207,57 +2207,57 @@ Image Symbol Table
     NVIC_PriorityGroupConfig                 0x080019d1   Thumb Code    10  misc.o(i.NVIC_PriorityGroupConfig)
     Normal_response                          0x080019e5   Thumb Code    74  modbus_svr.o(i.Normal_response)
     PIDMod_initialize                        0x08001a39   Thumb Code    20  spd_comm.o(i.PIDMod_initialize)
-    PIDMod_step                              0x08001a51   Thumb Code   314  spd_comm.o(i.PIDMod_step)
-    PendSV_Handler                           0x08001b95   Thumb Code     2  stm32f4xx_it.o(i.PendSV_Handler)
-    RCC_AHB1PeriphClockCmd                   0x08001b99   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
-    RCC_APB1PeriphClockCmd                   0x08001bb5   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
-    RCC_APB2PeriphClockCmd                   0x08001bd1   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
-    RCC_GetClocksFreq                        0x08001bed   Thumb Code   148  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
-    SPD1_Init                                0x08001d39   Thumb Code    80  usart_spd1.o(i.SPD1_Init)
-    SPD1_Task                                0x08001dbd   Thumb Code   178  usart_spd1.o(i.SPD1_Task)
-    SPD1_TxCmd                               0x08001e81   Thumb Code   102  usart_spd1.o(i.SPD1_TxCmd)
-    SPD2_Init                                0x08001fa1   Thumb Code    80  usart_spd2.o(i.SPD2_Init)
-    SPD2_Task                                0x08002025   Thumb Code   178  usart_spd2.o(i.SPD2_Task)
-    SPD2_TxCmd                               0x080020e9   Thumb Code   102  usart_spd2.o(i.SPD2_TxCmd)
-    SPD3_Init                                0x08002209   Thumb Code    80  usart_spd3.o(i.SPD3_Init)
-    SPD3_Task                                0x0800228d   Thumb Code   188  usart_spd3.o(i.SPD3_Task)
-    SPD3_TxCmd                               0x08002359   Thumb Code   106  usart_spd3.o(i.SPD3_TxCmd)
-    SVC_Handler                              0x080023d5   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
-    SetTimer                                 0x080024ad   Thumb Code    20  systick.o(i.SetTimer)
-    SpdQueueAvgVal                           0x080024c5   Thumb Code    26  spd_comm.o(i.SpdQueueAvgVal)
-    SpdQueueIn                               0x080024df   Thumb Code    64  spd_comm.o(i.SpdQueueIn)
-    SpdQueueInit                             0x0800251f   Thumb Code    28  spd_comm.o(i.SpdQueueInit)
-    SysTick_Handler                          0x0800253d   Thumb Code    54  systick.o(i.SysTick_Handler)
-    SysTick_Init                             0x0800257d   Thumb Code    90  systick.o(i.SysTick_Init)
-    SystemInit                               0x080025e5   Thumb Code    74  system_stm32f4xx.o(i.SystemInit)
-    UART4_IRQHandler                         0x08002641   Thumb Code    66  usart_dam.o(i.UART4_IRQHandler)
-    UART7_IRQHandler                         0x08002691   Thumb Code    66  usart_spd2.o(i.UART7_IRQHandler)
-    USART1_IRQHandler                        0x080026e1   Thumb Code    92  modbus_svr.o(i.USART1_IRQHandler)
-    USART2_IRQHandler                        0x08002749   Thumb Code    66  usart_spd3.o(i.USART2_IRQHandler)
-    USART3_IRQHandler                        0x08002799   Thumb Code    66  usart_spd1.o(i.USART3_IRQHandler)
-    USART6_IRQHandler                        0x080027e9   Thumb Code   128  usart_dpt.o(i.USART6_IRQHandler)
-    USART_Cmd                                0x08002879   Thumb Code    24  stm32f4xx_usart.o(i.USART_Cmd)
-    USART_GetFlagStatus                      0x08002891   Thumb Code    14  stm32f4xx_usart.o(i.USART_GetFlagStatus)
-    USART_GetITStatus                        0x0800289f   Thumb Code    64  stm32f4xx_usart.o(i.USART_GetITStatus)
-    USART_ITConfig                           0x080028df   Thumb Code    54  stm32f4xx_usart.o(i.USART_ITConfig)
-    USART_Init                               0x08002915   Thumb Code   180  stm32f4xx_usart.o(i.USART_Init)
-    USART_ReceiveData                        0x080029d1   Thumb Code     8  stm32f4xx_usart.o(i.USART_ReceiveData)
-    USART_SendData                           0x080029d9   Thumb Code     8  stm32f4xx_usart.o(i.USART_SendData)
-    UsageFault_Handler                       0x080029e1   Thumb Code     2  stm32f4xx_it.o(i.UsageFault_Handler)
-    Usart_SendByte                           0x080029e3   Thumb Code    24  modbus_svr.o(i.Usart_SendByte)
-    Usart_SendBytes                          0x080029fb   Thumb Code    46  modbus_svr.o(i.Usart_SendBytes)
-    Usart_SendString                         0x08002a29   Thumb Code    38  modbus_svr.o(i.Usart_SendString)
-    __0sprintf$1                             0x08002a51   Thumb Code    34  printf1.o(i.__0sprintf$1)
-    __1sprintf$1                             0x08002a51   Thumb Code     0  printf1.o(i.__0sprintf$1)
-    __2sprintf                               0x08002a51   Thumb Code     0  printf1.o(i.__0sprintf$1)
-    __scatterload_copy                       0x08002a79   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08002a87   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08002a89   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    _is_digit                                0x08002a97   Thumb Code    14  scanf_fp.o(i._is_digit)
-    main                                     0x08002c05   Thumb Code   286  main.o(i.main)
-    __ctype_categories                       0x08002f3c   Data          64  ctype_c.o(.constdata)
-    Region$$Table$$Base                      0x08002f7c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08002f9c   Number         0  anon$$obj.o(Region$$Table)
+    PIDMod_step                              0x08001a51   Thumb Code   290  spd_comm.o(i.PIDMod_step)
+    PendSV_Handler                           0x08001b7d   Thumb Code     2  stm32f4xx_it.o(i.PendSV_Handler)
+    RCC_AHB1PeriphClockCmd                   0x08001b81   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
+    RCC_APB1PeriphClockCmd                   0x08001b9d   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
+    RCC_APB2PeriphClockCmd                   0x08001bb9   Thumb Code    22  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
+    RCC_GetClocksFreq                        0x08001bd5   Thumb Code   148  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
+    SPD1_Init                                0x08001d21   Thumb Code    80  usart_spd1.o(i.SPD1_Init)
+    SPD1_Task                                0x08001da5   Thumb Code   178  usart_spd1.o(i.SPD1_Task)
+    SPD1_TxCmd                               0x08001e69   Thumb Code   102  usart_spd1.o(i.SPD1_TxCmd)
+    SPD2_Init                                0x08001f89   Thumb Code    80  usart_spd2.o(i.SPD2_Init)
+    SPD2_Task                                0x0800200d   Thumb Code   178  usart_spd2.o(i.SPD2_Task)
+    SPD2_TxCmd                               0x080020d1   Thumb Code   102  usart_spd2.o(i.SPD2_TxCmd)
+    SPD3_Init                                0x080021f1   Thumb Code    80  usart_spd3.o(i.SPD3_Init)
+    SPD3_Task                                0x08002275   Thumb Code   188  usart_spd3.o(i.SPD3_Task)
+    SPD3_TxCmd                               0x08002341   Thumb Code   106  usart_spd3.o(i.SPD3_TxCmd)
+    SVC_Handler                              0x080023bd   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
+    SetTimer                                 0x08002495   Thumb Code    20  systick.o(i.SetTimer)
+    SpdQueueAvgVal                           0x080024ad   Thumb Code    26  spd_comm.o(i.SpdQueueAvgVal)
+    SpdQueueIn                               0x080024c7   Thumb Code    64  spd_comm.o(i.SpdQueueIn)
+    SpdQueueInit                             0x08002507   Thumb Code    28  spd_comm.o(i.SpdQueueInit)
+    SysTick_Handler                          0x08002525   Thumb Code    54  systick.o(i.SysTick_Handler)
+    SysTick_Init                             0x08002565   Thumb Code    90  systick.o(i.SysTick_Init)
+    SystemInit                               0x080025cd   Thumb Code    74  system_stm32f4xx.o(i.SystemInit)
+    UART4_IRQHandler                         0x08002629   Thumb Code    66  usart_dam.o(i.UART4_IRQHandler)
+    UART7_IRQHandler                         0x08002679   Thumb Code    66  usart_spd2.o(i.UART7_IRQHandler)
+    USART1_IRQHandler                        0x080026c9   Thumb Code    92  modbus_svr.o(i.USART1_IRQHandler)
+    USART2_IRQHandler                        0x08002731   Thumb Code    66  usart_spd3.o(i.USART2_IRQHandler)
+    USART3_IRQHandler                        0x08002781   Thumb Code    66  usart_spd1.o(i.USART3_IRQHandler)
+    USART6_IRQHandler                        0x080027d1   Thumb Code   128  usart_dpt.o(i.USART6_IRQHandler)
+    USART_Cmd                                0x08002861   Thumb Code    24  stm32f4xx_usart.o(i.USART_Cmd)
+    USART_GetFlagStatus                      0x08002879   Thumb Code    14  stm32f4xx_usart.o(i.USART_GetFlagStatus)
+    USART_GetITStatus                        0x08002887   Thumb Code    64  stm32f4xx_usart.o(i.USART_GetITStatus)
+    USART_ITConfig                           0x080028c7   Thumb Code    54  stm32f4xx_usart.o(i.USART_ITConfig)
+    USART_Init                               0x080028fd   Thumb Code   180  stm32f4xx_usart.o(i.USART_Init)
+    USART_ReceiveData                        0x080029b9   Thumb Code     8  stm32f4xx_usart.o(i.USART_ReceiveData)
+    USART_SendData                           0x080029c1   Thumb Code     8  stm32f4xx_usart.o(i.USART_SendData)
+    UsageFault_Handler                       0x080029c9   Thumb Code     2  stm32f4xx_it.o(i.UsageFault_Handler)
+    Usart_SendByte                           0x080029cb   Thumb Code    24  modbus_svr.o(i.Usart_SendByte)
+    Usart_SendBytes                          0x080029e3   Thumb Code    46  modbus_svr.o(i.Usart_SendBytes)
+    Usart_SendString                         0x08002a11   Thumb Code    38  modbus_svr.o(i.Usart_SendString)
+    __0sprintf$1                             0x08002a39   Thumb Code    34  printf1.o(i.__0sprintf$1)
+    __1sprintf$1                             0x08002a39   Thumb Code     0  printf1.o(i.__0sprintf$1)
+    __2sprintf                               0x08002a39   Thumb Code     0  printf1.o(i.__0sprintf$1)
+    __scatterload_copy                       0x08002a61   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08002a6f   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08002a71   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    _is_digit                                0x08002a7f   Thumb Code    14  scanf_fp.o(i._is_digit)
+    main                                     0x08002bed   Thumb Code   286  main.o(i.main)
+    __ctype_categories                       0x08002f24   Data          64  ctype_c.o(.constdata)
+    Region$$Table$$Base                      0x08002f64   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08002f84   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000000   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x20000004   Data          16  system_stm32f4xx.o(.data)
     bSaved                                   0x20000024   Data           1  modbus_svr.o(.data)
@@ -2328,9 +2328,9 @@ Memory Map of the image
 
   Image Entry point : 0x080001ad
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003040, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003028, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00002f9c, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00002f84, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2418,69 +2418,69 @@ Memory Map of the image
     0x080019d0   0x00000014   Code   RO          165    i.NVIC_PriorityGroupConfig  misc.o
     0x080019e4   0x00000054   Code   RO         5338    i.Normal_response   modbus_svr.o
     0x08001a38   0x00000018   Code   RO         5592    i.PIDMod_initialize  spd_comm.o
-    0x08001a50   0x00000144   Code   RO         5593    i.PIDMod_step       spd_comm.o
-    0x08001b94   0x00000002   Code   RO         5229    i.PendSV_Handler    stm32f4xx_it.o
-    0x08001b96   0x00000002   PAD
-    0x08001b98   0x0000001c   Code   RO         2960    i.RCC_AHB1PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001bb4   0x0000001c   Code   RO         2969    i.RCC_APB1PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001bd0   0x0000001c   Code   RO         2972    i.RCC_APB2PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001bec   0x000000a4   Code   RO         2981    i.RCC_GetClocksFreq  stm32f4xx_rcc.o
-    0x08001c90   0x000000a8   Code   RO         5698    i.SPD1_Config       usart_spd1.o
-    0x08001d38   0x0000005c   Code   RO         5699    i.SPD1_Init         usart_spd1.o
-    0x08001d94   0x00000028   Code   RO         5700    i.SPD1_NVIC_Configuration  usart_spd1.o
-    0x08001dbc   0x000000c4   Code   RO         5701    i.SPD1_Task         usart_spd1.o
-    0x08001e80   0x00000078   Code   RO         5702    i.SPD1_TxCmd        usart_spd1.o
-    0x08001ef8   0x000000a8   Code   RO         5755    i.SPD2_Config       usart_spd2.o
-    0x08001fa0   0x0000005c   Code   RO         5756    i.SPD2_Init         usart_spd2.o
-    0x08001ffc   0x00000028   Code   RO         5757    i.SPD2_NVIC_Configuration  usart_spd2.o
-    0x08002024   0x000000c4   Code   RO         5758    i.SPD2_Task         usart_spd2.o
-    0x080020e8   0x00000078   Code   RO         5759    i.SPD2_TxCmd        usart_spd2.o
-    0x08002160   0x000000a8   Code   RO         5641    i.SPD3_Config       usart_spd3.o
-    0x08002208   0x0000005c   Code   RO         5642    i.SPD3_Init         usart_spd3.o
-    0x08002264   0x00000028   Code   RO         5643    i.SPD3_NVIC_Configuration  usart_spd3.o
-    0x0800228c   0x000000cc   Code   RO         5644    i.SPD3_Task         usart_spd3.o
-    0x08002358   0x0000007c   Code   RO         5645    i.SPD3_TxCmd        usart_spd3.o
-    0x080023d4   0x00000002   Code   RO         5230    i.SVC_Handler       stm32f4xx_it.o
-    0x080023d6   0x00000002   PAD
-    0x080023d8   0x000000d4   Code   RO           13    i.SetSysClock       system_stm32f4xx.o
-    0x080024ac   0x00000018   Code   RO         5466    i.SetTimer          systick.o
-    0x080024c4   0x0000001a   Code   RO         5594    i.SpdQueueAvgVal    spd_comm.o
-    0x080024de   0x00000040   Code   RO         5595    i.SpdQueueIn        spd_comm.o
-    0x0800251e   0x0000001c   Code   RO         5596    i.SpdQueueInit      spd_comm.o
-    0x0800253a   0x00000002   PAD
-    0x0800253c   0x00000040   Code   RO         5467    i.SysTick_Handler   systick.o
-    0x0800257c   0x00000068   Code   RO         5468    i.SysTick_Init      systick.o
-    0x080025e4   0x0000005c   Code   RO           15    i.SystemInit        system_stm32f4xx.o
-    0x08002640   0x00000050   Code   RO         5868    i.UART4_IRQHandler  usart_dam.o
-    0x08002690   0x00000050   Code   RO         5760    i.UART7_IRQHandler  usart_spd2.o
-    0x080026e0   0x00000068   Code   RO         5340    i.USART1_IRQHandler  modbus_svr.o
-    0x08002748   0x00000050   Code   RO         5646    i.USART2_IRQHandler  usart_spd3.o
-    0x08002798   0x00000050   Code   RO         5703    i.USART3_IRQHandler  usart_spd1.o
-    0x080027e8   0x00000090   Code   RO         5816    i.USART6_IRQHandler  usart_dpt.o
-    0x08002878   0x00000018   Code   RO         4907    i.USART_Cmd         stm32f4xx_usart.o
-    0x08002890   0x0000000e   Code   RO         4910    i.USART_GetFlagStatus  stm32f4xx_usart.o
-    0x0800289e   0x00000040   Code   RO         4911    i.USART_GetITStatus  stm32f4xx_usart.o
-    0x080028de   0x00000036   Code   RO         4913    i.USART_ITConfig    stm32f4xx_usart.o
-    0x08002914   0x000000bc   Code   RO         4914    i.USART_Init        stm32f4xx_usart.o
-    0x080029d0   0x00000008   Code   RO         4921    i.USART_ReceiveData  stm32f4xx_usart.o
-    0x080029d8   0x00000008   Code   RO         4924    i.USART_SendData    stm32f4xx_usart.o
-    0x080029e0   0x00000002   Code   RO         5231    i.UsageFault_Handler  stm32f4xx_it.o
-    0x080029e2   0x00000018   Code   RO         5341    i.Usart_SendByte    modbus_svr.o
-    0x080029fa   0x0000002e   Code   RO         5342    i.Usart_SendBytes   modbus_svr.o
-    0x08002a28   0x00000026   Code   RO         5344    i.Usart_SendString  modbus_svr.o
-    0x08002a4e   0x00000002   PAD
-    0x08002a50   0x00000028   Code   RO         5969    i.__0sprintf$1      mc_w.l(printf1.o)
-    0x08002a78   0x0000000e   Code   RO         6248    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08002a86   0x00000002   Code   RO         6249    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08002a88   0x0000000e   Code   RO         6250    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08002a96   0x0000000e   Code   RO         6187    i._is_digit         mc_w.l(scanf_fp.o)
-    0x08002aa4   0x00000154   Code   RO         5974    i._printf_core      mc_w.l(printf1.o)
-    0x08002bf8   0x0000000a   Code   RO         5976    i._sputc            mc_w.l(printf1.o)
-    0x08002c02   0x00000002   PAD
-    0x08002c04   0x00000138   Code   RO         5161    i.main              main.o
-    0x08002d3c   0x00000200   Data   RO         5348    .constdata          modbus_svr.o
-    0x08002f3c   0x00000040   Data   RO         6244    .constdata          mc_w.l(ctype_c.o)
-    0x08002f7c   0x00000020   Data   RO         6246    Region$$Table       anon$$obj.o
+    0x08001a50   0x0000012c   Code   RO         5593    i.PIDMod_step       spd_comm.o
+    0x08001b7c   0x00000002   Code   RO         5229    i.PendSV_Handler    stm32f4xx_it.o
+    0x08001b7e   0x00000002   PAD
+    0x08001b80   0x0000001c   Code   RO         2960    i.RCC_AHB1PeriphClockCmd  stm32f4xx_rcc.o
+    0x08001b9c   0x0000001c   Code   RO         2969    i.RCC_APB1PeriphClockCmd  stm32f4xx_rcc.o
+    0x08001bb8   0x0000001c   Code   RO         2972    i.RCC_APB2PeriphClockCmd  stm32f4xx_rcc.o
+    0x08001bd4   0x000000a4   Code   RO         2981    i.RCC_GetClocksFreq  stm32f4xx_rcc.o
+    0x08001c78   0x000000a8   Code   RO         5698    i.SPD1_Config       usart_spd1.o
+    0x08001d20   0x0000005c   Code   RO         5699    i.SPD1_Init         usart_spd1.o
+    0x08001d7c   0x00000028   Code   RO         5700    i.SPD1_NVIC_Configuration  usart_spd1.o
+    0x08001da4   0x000000c4   Code   RO         5701    i.SPD1_Task         usart_spd1.o
+    0x08001e68   0x00000078   Code   RO         5702    i.SPD1_TxCmd        usart_spd1.o
+    0x08001ee0   0x000000a8   Code   RO         5755    i.SPD2_Config       usart_spd2.o
+    0x08001f88   0x0000005c   Code   RO         5756    i.SPD2_Init         usart_spd2.o
+    0x08001fe4   0x00000028   Code   RO         5757    i.SPD2_NVIC_Configuration  usart_spd2.o
+    0x0800200c   0x000000c4   Code   RO         5758    i.SPD2_Task         usart_spd2.o
+    0x080020d0   0x00000078   Code   RO         5759    i.SPD2_TxCmd        usart_spd2.o
+    0x08002148   0x000000a8   Code   RO         5641    i.SPD3_Config       usart_spd3.o
+    0x080021f0   0x0000005c   Code   RO         5642    i.SPD3_Init         usart_spd3.o
+    0x0800224c   0x00000028   Code   RO         5643    i.SPD3_NVIC_Configuration  usart_spd3.o
+    0x08002274   0x000000cc   Code   RO         5644    i.SPD3_Task         usart_spd3.o
+    0x08002340   0x0000007c   Code   RO         5645    i.SPD3_TxCmd        usart_spd3.o
+    0x080023bc   0x00000002   Code   RO         5230    i.SVC_Handler       stm32f4xx_it.o
+    0x080023be   0x00000002   PAD
+    0x080023c0   0x000000d4   Code   RO           13    i.SetSysClock       system_stm32f4xx.o
+    0x08002494   0x00000018   Code   RO         5466    i.SetTimer          systick.o
+    0x080024ac   0x0000001a   Code   RO         5594    i.SpdQueueAvgVal    spd_comm.o
+    0x080024c6   0x00000040   Code   RO         5595    i.SpdQueueIn        spd_comm.o
+    0x08002506   0x0000001c   Code   RO         5596    i.SpdQueueInit      spd_comm.o
+    0x08002522   0x00000002   PAD
+    0x08002524   0x00000040   Code   RO         5467    i.SysTick_Handler   systick.o
+    0x08002564   0x00000068   Code   RO         5468    i.SysTick_Init      systick.o
+    0x080025cc   0x0000005c   Code   RO           15    i.SystemInit        system_stm32f4xx.o
+    0x08002628   0x00000050   Code   RO         5868    i.UART4_IRQHandler  usart_dam.o
+    0x08002678   0x00000050   Code   RO         5760    i.UART7_IRQHandler  usart_spd2.o
+    0x080026c8   0x00000068   Code   RO         5340    i.USART1_IRQHandler  modbus_svr.o
+    0x08002730   0x00000050   Code   RO         5646    i.USART2_IRQHandler  usart_spd3.o
+    0x08002780   0x00000050   Code   RO         5703    i.USART3_IRQHandler  usart_spd1.o
+    0x080027d0   0x00000090   Code   RO         5816    i.USART6_IRQHandler  usart_dpt.o
+    0x08002860   0x00000018   Code   RO         4907    i.USART_Cmd         stm32f4xx_usart.o
+    0x08002878   0x0000000e   Code   RO         4910    i.USART_GetFlagStatus  stm32f4xx_usart.o
+    0x08002886   0x00000040   Code   RO         4911    i.USART_GetITStatus  stm32f4xx_usart.o
+    0x080028c6   0x00000036   Code   RO         4913    i.USART_ITConfig    stm32f4xx_usart.o
+    0x080028fc   0x000000bc   Code   RO         4914    i.USART_Init        stm32f4xx_usart.o
+    0x080029b8   0x00000008   Code   RO         4921    i.USART_ReceiveData  stm32f4xx_usart.o
+    0x080029c0   0x00000008   Code   RO         4924    i.USART_SendData    stm32f4xx_usart.o
+    0x080029c8   0x00000002   Code   RO         5231    i.UsageFault_Handler  stm32f4xx_it.o
+    0x080029ca   0x00000018   Code   RO         5341    i.Usart_SendByte    modbus_svr.o
+    0x080029e2   0x0000002e   Code   RO         5342    i.Usart_SendBytes   modbus_svr.o
+    0x08002a10   0x00000026   Code   RO         5344    i.Usart_SendString  modbus_svr.o
+    0x08002a36   0x00000002   PAD
+    0x08002a38   0x00000028   Code   RO         5969    i.__0sprintf$1      mc_w.l(printf1.o)
+    0x08002a60   0x0000000e   Code   RO         6248    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08002a6e   0x00000002   Code   RO         6249    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08002a70   0x0000000e   Code   RO         6250    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08002a7e   0x0000000e   Code   RO         6187    i._is_digit         mc_w.l(scanf_fp.o)
+    0x08002a8c   0x00000154   Code   RO         5974    i._printf_core      mc_w.l(printf1.o)
+    0x08002be0   0x0000000a   Code   RO         5976    i._sputc            mc_w.l(printf1.o)
+    0x08002bea   0x00000002   PAD
+    0x08002bec   0x00000138   Code   RO         5161    i.main              main.o
+    0x08002d24   0x00000200   Data   RO         5348    .constdata          modbus_svr.o
+    0x08002f24   0x00000040   Data   RO         6244    .constdata          mc_w.l(ctype_c.o)
+    0x08002f64   0x00000020   Data   RO         6246    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00000fd0, Max: 0x00030000, ABSOLUTE)
@@ -2521,7 +2521,7 @@ Image component sizes
        312         26          0          0         60       1584   main.o
        124         16          0          0          0       1775   misc.o
       1454        128        512         16       1312      10139   modbus_svr.o
-       466         14          0          0          0       3534   spd_comm.o
+       442         14          0          0          0       3518   spd_comm.o
         36          8        428          0       1024        964   startup_stm32f429_439xx.o
        330         38          0          0          0       5157   stm32f4xx_flash.o
        160          0          0          0          0       2570   stm32f4xx_gpio.o
@@ -2538,7 +2538,7 @@ Image component sizes
        708         68          0         16        308       4477   usart_spd3.o
 
     ----------------------------------------------------------------------
-      7880        766        972        164       3884     385045   Object Totals
+      7856        766        972        164       3884     385029   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         18          0          0          3          2          0   (incl. Padding)
 
@@ -2596,15 +2596,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     11152        830       1036        164       3884     377169   Grand Totals
-     11152        830       1036        164       3884     377169   ELF Image Totals
-     11152        830       1036        164          0          0   ROM Totals
+     11128        830       1036        164       3884     377153   Grand Totals
+     11128        830       1036        164       3884     377153   ELF Image Totals
+     11128        830       1036        164          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                12188 (  11.90kB)
+    Total RO  Size (Code + RO Data)                12164 (  11.88kB)
     Total RW  Size (RW Data + ZI Data)              4048 (   3.95kB)
-    Total ROM Size (Code + RO Data + RW Data)      12352 (  12.06kB)
+    Total ROM Size (Code + RO Data + RW Data)      12328 (  12.04kB)
 
 ==============================================================================
 
