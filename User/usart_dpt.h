@@ -35,6 +35,10 @@
 #define DPT_BAUDRATE wReg[103] //通信波特率
 #define DPT_COM_SUCS wReg[9]   //通信成功次数
 
+#define DPT_SENSOR_ADR wReg[124] //计算角度值地址
+#define DPT_SET_ADR wReg[124]    //设定角度值地址
+#define DPT_ANGLE_ADR wReg[125]  //角度计算结果
+
 void DPT_Init(void);
 void DPT_Task(void);
 

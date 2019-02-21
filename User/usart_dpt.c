@@ -13,8 +13,7 @@ u8 DPT_bRecv;
 float fDepth;
 float fHead, fPitch, fRoll;
 
-u32  ulLastDptTicks, ulLastHprTicks ;
-
+u32 ulLastDptTicks, ulLastHprTicks;
 
 //-------------------------------------------------------------------------------
 //	@brief	中断初始化
@@ -129,24 +128,25 @@ void DPT_Init(void)
 void DPT_Task(void)
 {
 	int bErr;
-	u32 tick ;
+	short tmp;
+	u32 tick;
 
 	if (DPT_bRecv == 0) // 未收到深度计信息帧，错误计数器加１
 	{
 		return;
 	}
 
-	wReg[9]++ ;
+	wReg[9]++;
 	if (DPT_buffer[1] == 'P') //　　是深度帧
 	{
-		wReg[9]++ ;
+		wReg[9]++;
 		bErr = sscanf(DPT_buffer, "$PIPS,%f,M*", &fDepth);
 		if (bErr == 1)
 		{
-			tick = GetCurTick() ;
+			tick = GetCurTick();
 			wReg[DPT_SAVE_ADR] = (u16)(fDepth * 10);
-			wReg[DPT_SAVE_ADR + 1] = tick - ulLastDptTicks ;
-			ulLastDptTicks = tick ;		
+			wReg[DPT_SAVE_ADR + 1] = tick - ulLastDptTicks;
+			ulLastDptTicks = tick;
 		}
 	}
 
@@ -155,12 +155,28 @@ void DPT_Task(void)
 		bErr = sscanf(DPT_buffer, "$C%fP%fR%f*", &fHead, &fPitch, &fRoll);
 		if (bErr == 3)
 		{
-			tick = GetCurTick() ;
+			tick = GetCurTick();
 			wReg[DPT_SAVE_ADR + 2] = (u16)(fHead * 10);
 			wReg[DPT_SAVE_ADR + 3] = (u16)(fPitch * 10);
 			wReg[DPT_SAVE_ADR + 4] = (u16)(fRoll * 10);
-			wReg[DPT_SAVE_ADR + 5] = tick - ulLastHprTicks ;
-			ulLastHprTicks = tick ;
+			wReg[DPT_SAVE_ADR + 5] = tick - ulLastHprTicks;
+			ulLastHprTicks = tick;
+
+			if (DPT_SENSOR_ADR <= 0 || DPT_SENSOR_ADR > 10)
+				DPT_SENSOR_ADR = 0;
+			if (DPT_SET_ADR < 100 || DPT_SET_ADR >= 200)
+				DPT_SET_ADR = 199;
+
+			DPT_ANGLE_ADR = wReg[DPT_SENSOR_ADR]; //角度转移
+			tmp = wReg[DPT_SENSOR_ADR] - wReg[DPT_SET_ADR];
+			if (tmp > 1800)
+			{
+				DPT_ANGLE_ADR = wReg[DPT_SENSOR_ADR] - 3600;
+			}
+			if (tmp < -1800)
+			{
+				DPT_ANGLE_ADR = wReg[DPT_SENSOR_ADR] + 3600;
+			}
 		}
 	}
 
@@ -195,7 +211,7 @@ void DPT_USART_IRQHandler(void)
 		if (ch == '$' && DPT_curptr == 0 && DPT_bRecv == 0) // need receive frame
 		{
 			DPT_buffer[DPT_curptr++] = ch;
-			wReg[7] ++ ;
+			wReg[7]++;
 		}
 	}
 

@@ -1567,7 +1567,7 @@ I (..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x5C66B94F)
 I (..\..\User\SysTick.h)(0x5C67D9A7)
 I (..\..\User\Modbus_svr.h)(0x5C66B94F)
 I (D:\ExtProgram\keil\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
-I (..\..\User\usart_dpt.h)(0x5C6E9F02)
+I (..\..\User\usart_dpt.h)(0x5C6EA674)
 I (..\..\User\usart_spd1.h)(0x5C67F3DC)
 I (..\..\User\usart_spd2.h)(0x5C67F3D5)
 I (..\..\User\usart_spd3.h)(0x5C67F437)
@@ -1942,8 +1942,8 @@ I (..\..\User\spd_comm.h)(0x5C6E9F02)
 I (..\..\User\Modbus_svr.h)(0x5C66B94F)
 I (D:\ExtProgram\keil\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (..\..\User\SysTick.h)(0x5C67D9A7)
-F (..\..\User\usart_dpt.c)(0x5C6E9F02)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\..\Libraries\CMSIS\Include -I ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\..\User-I.\RTE\_____________-ID:\ExtProgram\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ExtProgram\keil\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F429xx -DUSE_STDPERIPH_DRIVER -DSTM32F429_439xx-o ..\..\output\usart_dpt.o --omf_browse ..\..\output\usart_dpt.crf --depend ..\..\output\usart_dpt.d)
-I (..\..\User\usart_dpt.h)(0x5C6E9F02)
+F (..\..\User\usart_dpt.c)(0x5C6EB017)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\..\Libraries\CMSIS\Include -I ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\..\User-I.\RTE\_____________-ID:\ExtProgram\keil\ARM\PACK\Keil\STM32F4xx_DFP\2.5.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ExtProgram\keil\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F429xx -DUSE_STDPERIPH_DRIVER -DSTM32F429_439xx-o ..\..\output\usart_dpt.o --omf_browse ..\..\output\usart_dpt.crf --depend ..\..\output\usart_dpt.d)
+I (..\..\User\usart_dpt.h)(0x5C6EA674)
 I (..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C66B94F)
 I (..\..\Libraries\CMSIS\Include\core_cm4.h)(0x5C66B94F)
 I (D:\ExtProgram\keil\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -2026,4 +2026,4 @@ I (..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x5C66B94F)
 I (..\..\User\Modbus_svr.h)(0x5C66B94F)
 I (D:\ExtProgram\keil\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (..\..\User\SysTick.h)(0x5C67D9A7)
-F (..\..\通信协议.txt)(0x5C6EA210)()
+F (..\..\通信协议.txt)(0x5C6EA5A7)()
