@@ -79,13 +79,11 @@ void PIDMod_step(PID_Module *pPid)
     //float curDelta, tmp, val ;
 
     if (pPid->pParaAdr[9] == 0)
-    {
         return;
-    }
 
-    if (pPid->pParaAdr[0] > 100 || pPid->pParaAdr[0] < 0)
+    if (pPid->pParaAdr[0] > 100 || pPid->pParaAdr[0] < 0) //判断输入寄存器地址
         pPid->pParaAdr[0] = 0;
-    if (pPid->pParaAdr[1] >= 200 || pPid->pParaAdr[1] < 100)
+    if (pPid->pParaAdr[1] >= 200 || pPid->pParaAdr[1] < 100) //判断输出寄存器地址
         pPid->pParaAdr[1] = 199;
 
     tmp = wReg[pPid->pParaAdr[0]];
@@ -98,18 +96,11 @@ void PIDMod_step(PID_Module *pPid)
     pPid->sDeltaL2 = pPid->sDeltaL1;
     pPid->sDeltaL1 = curDelta;
 
-    wReg[124] = pid_u & 0xFFFF00 >> 16;
-    wReg[125] = pid_u & 0x0000FFF;
-
     pid_out = pPid->vOutL1;
     if (pPid->pParaAdr[8] == 0) //根据作用方式确定是增量还是减量
-    {
         pid_out -= pid_u;
-    }
     else
-    {
         pid_out += pid_u;
-    }
 
     //输出值限幅，避免调节器饱和
     if (pid_out > PID_MAX_OUT)
@@ -117,7 +108,12 @@ void PIDMod_step(PID_Module *pPid)
     if (pid_out < -PID_MAX_OUT)
         pid_out = -PID_MAX_OUT;
 
-    //输出变换
+    //输出限幅
+    if (pPid->pParaAdr[7] < 0)
+        pPid->pParaAdr[7] = 0;
+    if (pPid->pParaAdr[7] > 100)
+        pPid->pParaAdr[7] = 100;
+
     tmp = 0x8000 * pPid->pParaAdr[7] / 100 - 1;
     val = pid_out / 1000;
 
@@ -126,20 +122,14 @@ void PIDMod_step(PID_Module *pPid)
     if (val < -tmp)
         val = -tmp;
 
-    switch (pPid->pParaAdr[9])
-    {
-    case 1:
-        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
-        break;
-    case 2:
-        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
-        wReg[pPid->pParaAdr[1] + 1] = 0x8000 + (val & 0x0000FFFF);
-        break;
-    case 3:
-        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
-        wReg[pPid->pParaAdr[1] + 1] = 0x8000 - (val & 0x0000FFFF);
-        break;
-    }
+    //输出方式选择
+    val &= 0x0000FFFF;
+    wReg[pPid->pParaAdr[1]] = 0x8000 + val; //单回路PID
+
+    if (pPid->pParaAdr[9] == 2)
+        wReg[pPid->pParaAdr[1] + 1] = 0x8000 + val; //正向并联PID
+    if (pPid->pParaAdr[9] == 3)
+        wReg[pPid->pParaAdr[1] + 1] = 0x8000 - val; //反向并联PID
 
     pPid->vOutL2 = pPid->vOutL1;
     pPid->vOutL1 = pid_out;
