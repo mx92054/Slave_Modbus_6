@@ -78,7 +78,7 @@ void PIDMod_step(PID_Module *pPid)
     //float pid_u, pid_out ;
     //float curDelta, tmp, val ;
 
-    if (!pPid->pParaAdr[9])
+    if (pPid->pParaAdr[9] == 0)
     {
         return;
     }
@@ -111,26 +111,40 @@ void PIDMod_step(PID_Module *pPid)
         pid_out += pid_u;
     }
 
-     //输出值限幅，避免调节器饱和   
-     if (pid_out > PID_MAX_OUT)
+    //输出值限幅，避免调节器饱和
+    if (pid_out > PID_MAX_OUT)
         pid_out = PID_MAX_OUT;
     if (pid_out < -PID_MAX_OUT)
         pid_out = -PID_MAX_OUT;
 
     //输出变换
-    tmp = 0x8000 * pPid->pParaAdr[7] / 100 -1;
+    tmp = 0x8000 * pPid->pParaAdr[7] / 100 - 1;
     val = pid_out / 1000;
     wReg[124] = (val & 0xFFFF0000) >> 16;
     wReg[125] = val & 0x0000FFFF;
+
     if (val > tmp)
-        val = tmp ;
+        val = tmp;
     if (val < -tmp)
         val = -tmp;
 
     wReg[126] = (val & 0xFFFF0000) >> 16;
     wReg[127] = val & 0x0000FFFF;
 
-    wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
+    switch (pPid->pParaAdr[9])
+    {
+    case 1:
+        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
+        break;
+    case 2:
+        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
+        wReg[pPid->pParaAdr[1] + 1] = 0x8000 + (val & 0x0000FFFF);
+        break;
+    case 3:
+        wReg[pPid->pParaAdr[1]] = 0x8000 + (val & 0x0000FFFF);
+        wReg[pPid->pParaAdr[1] + 1] = 0x8000 - (val & 0x0000FFFF);
+        break;
+    }
 
     pPid->vOutL2 = pPid->vOutL1;
     pPid->vOutL1 = pid_out;
