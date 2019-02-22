@@ -78,9 +78,9 @@ int main(void)
 		if (GetTimer(1) && bSaved)
 		{
 			Flash_Write16BitDatas(FLASH_USER_START_ADDR, 100, &wReg[100]); //保存修改过的寄存器
-			PIDMod_update_para(&pid1) ;
-			PIDMod_update_para(&pid2) ;
-			PIDMod_update_para(&pid3) ;
+			PIDMod_update_para(&pid1);
+			PIDMod_update_para(&pid2);
+			PIDMod_update_para(&pid3);
 			bSaved = 0;
 		}
 
@@ -100,7 +100,7 @@ int main(void)
 
 		if (GetTimer(4))
 		{
-			DAM_TxCmd();  //向模拟量输出板发出指令
+			DAM_TxCmd(); //向模拟量输出板发出指令
 		}
 	}
 }
