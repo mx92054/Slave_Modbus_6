@@ -71,6 +71,33 @@ void PIDMod_initialize(PID_Module *pPid, int no)
     pPid->sDeltaL2 = 0;
 }
 
+/****************************************************************
+ *	@brief	PID模块参数检测
+ *	@param	pPid模块指针
+ *          no 参数起始地址
+ *	@retval	None
+ ****************************************************************/
+void PIDMod_update_para(PID_Module *pPid)
+{
+    if (pPid->pParaAdr[0] > 100 || pPid->pParaAdr[0] < 0) //判断输入寄存器地址
+        pPid->pParaAdr[0] = 0;
+    if (pPid->pParaAdr[1] >= 200 || pPid->pParaAdr[1] < 100) //判断输出寄存器地址
+        pPid->pParaAdr[1] = 199;
+
+    if (pPid->pParaAdr[7] < 0)
+        pPid->pParaAdr[7] = 0;
+    if (pPid->pParaAdr[7] > 100)
+        pPid->pParaAdr[7] = 100;
+
+    if (pPid->pParaAdr[9] < 0 || pPid->pParaAdr[9] > 3)
+        pPid->pParaAdr[9] = 0;
+}
+
+/****************************************************************
+ *	@brief	PID模块计算
+ *	@param	pPid模块指针
+ *	@retval	None
+ ****************************************************************/
 void PIDMod_step(PID_Module *pPid)
 {
     long int pid_u, pid_out;
@@ -79,13 +106,9 @@ void PIDMod_step(PID_Module *pPid)
     if (pPid->pParaAdr[9] == 0)
         return;
 
-    if (pPid->pParaAdr[0] > 100 || pPid->pParaAdr[0] < 0) //判断输入寄存器地址
-        pPid->pParaAdr[0] = 0;
-    if (pPid->pParaAdr[1] >= 200 || pPid->pParaAdr[1] < 100) //判断输出寄存器地址
-        pPid->pParaAdr[1] = 199;
-
     tmp = wReg[pPid->pParaAdr[0]];
-    curDelta = (pPid->pParaAdr[3] - tmp)*pPid->pParaAdr[2] / 100;; //当前偏差值
+    tmp = tmp * pPid->pParaAdr[2] / 100;
+    curDelta = pPid->pParaAdr[3] - tmp; //当前偏差值
 
     pid_u = pPid->pParaAdr[4] * (curDelta - pPid->sDeltaL1 +
                                  pPid->pParaAdr[5] * pPid->sDeltaL1 +
@@ -106,11 +129,6 @@ void PIDMod_step(PID_Module *pPid)
         pid_out = -PID_MAX_OUT;
 
     //输出限幅
-    if (pPid->pParaAdr[7] < 0)
-        pPid->pParaAdr[7] = 0;
-    if (pPid->pParaAdr[7] > 100)
-        pPid->pParaAdr[7] = 100;
-
     tmp = 0x8000 * pPid->pParaAdr[7] / 100 - 1;
     val = pid_out / 1000;
 
