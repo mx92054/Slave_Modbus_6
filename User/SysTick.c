@@ -4,6 +4,7 @@
 ********************************************************/
 #include "SysTick.h"
 #include "Modbus_svr.h"
+#include "usart_com1.h"
 
 #define TIMER_NUM 10
 
@@ -52,6 +53,7 @@ void SysTick_Handler(void)
 	int i;
 
 	ModbusTimer();
+	SLV1_Timer();
 	nlTicks++;
 
 	if (!TimingDelay)
