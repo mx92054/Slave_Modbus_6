@@ -1,5 +1,23 @@
 #include "Mbsvr_comm.h"
 #include "bsp_innerflash.h"
+#include "SysTick.h"
+
+/*********************************************************
+ *	@brief	中断初始化
+ *	@param	None
+ *	@retval	None
+ * ******************************************************/
+void ModbusSvr_NVIC_Configuration(u8 nChn)
+{
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_InitStructure.NVIC_IRQChannel = nChn; //COM1_IRQ;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+}
 
 /*********************************************************
  * @desc:  modbus data initial
@@ -9,10 +27,10 @@
 void ModbusSvr_block_init(Modbus_block *pblk)
 {
     short tmp;
-    Flash_Read16BitDatas(FLASH_USER_START_ADDR1, 100, &pblk->wReg[100]);
+    Flash_Read16BitDatas(FLASH_USER_START_ADDR1, 100, pblk->wReg + 100);
 
     tmp = pblk->wReg[100]; //站地址设置检查
-    if (tmp < 0 || tmp > 255)
+    if (tmp <= 0 || tmp > 255)
         pblk->wReg[100] = 1;
 
     tmp = pblk->wReg[101]; //波特率设置检查
@@ -22,7 +40,7 @@ void ModbusSvr_block_init(Modbus_block *pblk)
     pblk->wReg[102]++; //启动次数
 
     pblk->station = pblk->wReg[100];
-    pblk->baudrate = pblk->wReg[101];
+    pblk->baudrate = pblk->wReg[101] * 100;
 
     switch (pblk->baudrate)
     {
@@ -46,7 +64,7 @@ void ModbusSvr_block_init(Modbus_block *pblk)
     pblk->pos_msg = 0;
     pblk->bFrameStart = 0;
     pblk->nMBInterval = 0;
-    pblk->bSaved = 0;
+    pblk->bSaved = 1;
 
     pblk->tsk_buf = pblk->buffer;
     pblk->isr_buf = pblk->buffer + 256;
@@ -58,7 +76,7 @@ void ModbusSvr_block_init(Modbus_block *pblk)
  *         pUSARTx-通信端口
  * @retval:None
  * ******************************************************/
-void ModbusSvr_normal_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
+static void ModbusSvr_normal_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 {
     u16 uCrc1;
     int i;
@@ -83,7 +101,7 @@ void ModbusSvr_normal_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
  *         pUSARTx-通信端口
  * @retval:None
  * ******************************************************/
-void ModbusSvr_error_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
+static void ModbusSvr_error_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 {
     u16 uCrc1;
     int i;
@@ -114,6 +132,7 @@ void ModbusSvr_error_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 void ModbusSvr_task(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 {
     u8 *ptr;
+    u32 tick;
 
     if (pblk->nMBInterval > pblk->uFrameInterval) //通信帧间隔时间已到，缓冲区域切换
     {
@@ -126,11 +145,16 @@ void ModbusSvr_task(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 
         if (pblk->frame_len >= 8 && pblk->tsk_buf[0] == pblk->station)
         {
-            pblk->errno = ModbusSvr_Procotol_Chain(pblk); //协议解析
-            if (pblk->errno)                              //协议协议错误
+            tick = GetCurTick();
+            pblk->errno = ModbusSvr_procotol_chain(pblk); //handle protocol
+            if (pblk->errno)                              //occur error
                 ModbusSvr_error_respose(pblk, pUSARTx);
-            else //协议解释正确
+            else //occur finish
+            {
                 ModbusSvr_normal_respose(pblk, pUSARTx);
+                pblk->wReg[103] = tick - pblk->uLTick;
+                pblk->uLTick = tick;
+            }
         }
         pblk->nMBInterval = 0;
     }
@@ -142,7 +166,7 @@ void ModbusSvr_task(Modbus_block *pblk, USART_TypeDef *pUSARTx)
  *         pUSARTx-通信端口
  * @retval:None
  * ******************************************************/
-u8 ModbusSvr_Procotol_Chain(Modbus_block *pblk)
+u8 ModbusSvr_procotol_chain(Modbus_block *pblk)
 {
     u16 reg_adr, uCrc1, uCrc2;
     u16 i, data_len, cur_adr;
@@ -289,7 +313,7 @@ u8 ModbusSvr_Procotol_Chain(Modbus_block *pblk)
         return 0;
     }
 
-    return 0;
+    return 1; //ILLEGAL_FUNCTION
 }
 /*********************************************************
  * @desc:  参数寄存器内容保存
@@ -297,7 +321,7 @@ u8 ModbusSvr_Procotol_Chain(Modbus_block *pblk)
  *         pUSARTx-通信端口
  * @retval:None
  * ******************************************************/
-void ModbusSvr_save_para(Modbus_block *pblk, int nWr)
+void ModbusSvr_save_para(Modbus_block *pblk)
 {
     short tmp;
 
@@ -312,10 +336,9 @@ void ModbusSvr_save_para(Modbus_block *pblk, int nWr)
             pblk->wReg[101] = 1152;
 
         pblk->station = pblk->wReg[100];
-        pblk->baudrate = pblk->wReg[101];
+        pblk->baudrate = pblk->wReg[101] * 100;
 
-        if (nWr)
-            Flash_Write16BitDatas(FLASH_USER_START_ADDR1, 100, &pblk->wReg[100]); //保存修改过的寄存器
+        Flash_Write16BitDatas(FLASH_USER_START_ADDR1, 100, pblk->wReg + 100);
         pblk->bSaved = 0;
     }
 }
@@ -326,16 +349,27 @@ void ModbusSvr_save_para(Modbus_block *pblk, int nWr)
  *         pUSARTx-通信端口
  * @retval:None
  * ******************************************************/
-void ModbusSvr_isr(Modbus_block *pblk, u8 ch)
+void ModbusSvr_isr(Modbus_block *pblk, USART_TypeDef *pUSARTx)
 {
-    if (pblk->bFrameStart)
-    {
-        if (ch != pblk->station && pblk->pos_msg == 0)
-            pblk->bFrameStart = 0;
+    u8 ch;
 
-        pblk->isr_buf[pblk->pos_msg++] = ch;
+    if (USART_GetITStatus(pUSARTx, USART_IT_RXNE) != RESET) //判断读寄存器是否非空
+    {
+        ch = USART_ReceiveData(pUSARTx); //将读寄存器的数据缓存到接收缓冲区里
+        if (pblk->bFrameStart)
+        {
+            if (ch != pblk->station && pblk->pos_msg == 0)
+                pblk->bFrameStart = 0;
+
+            pblk->isr_buf[pblk->pos_msg++] = ch;
+        }
+        pblk->nMBInterval = 0;
     }
-    pblk->nMBInterval = 0;
+
+    if (USART_GetITStatus(pUSARTx, USART_IT_TXE) != RESET)
+    {
+        USART_ITConfig(pUSARTx, USART_IT_TXE, DISABLE);
+    }
 }
 
 //-------------------------------------------------------------------------------
@@ -422,7 +456,8 @@ void Usart_SendString(USART_TypeDef *pUSARTx, char *str)
     } while (*(str + k) != '\0');
 
     while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC) == RESET)
-        ;
+    {
+    }
 }
 
 //-------------------------------------------------------------------------------

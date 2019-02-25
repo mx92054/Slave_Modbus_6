@@ -39,3 +39,4 @@
 ..\..\output\mbsvr_comm.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_ltdc.h
 ..\..\output\mbsvr_comm.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 ..\..\output\mbsvr_comm.o: ..\..\User\bsp_innerflash.h
+..\..\output\mbsvr_comm.o: ..\..\User\SysTick.h

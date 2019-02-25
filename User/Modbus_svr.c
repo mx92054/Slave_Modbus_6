@@ -1,31 +1,9 @@
 #include <string.h>
 #include "Modbus_svr.h"
 #include "stm32f4xx_conf.h"
+#include <stdio.h>
 
 Modbus_block mblock1;
-//-------------------------------------------------------------------------------
-//	@brief	中断初始化
-//	@param	None
-//	@retval	None
-//-------------------------------------------------------------------------------
-static void MODBUS_NVIC_Configuration(void)
-{
-	NVIC_InitTypeDef NVIC_InitStructure;
-
-	/* 嵌套向量中断控制器组选择 */
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
-	/* 配置USART为中断源 */
-	NVIC_InitStructure.NVIC_IRQChannel = DEBUG_USART_IRQ;
-	/* 抢断优先级为1 */
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	/* 子优先级为1 */
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-	/* 使能中断 */
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	/* 初始化配置NVIC */
-	NVIC_Init(&NVIC_InitStructure);
-}
 
 //-------------------------------------------------------------------------------
 //	@brief	串口初始化
@@ -65,7 +43,7 @@ static void MODBUS_Config(u32 baud)
 
 	/* 配置串DEBUG_USART 模式 */
 	/* 波特率设置：DEBUG_USART_BAUDRATE */
-	USART_InitStructure.USART_BaudRate = DEBUG_USART_BAUDRATE;
+	USART_InitStructure.USART_BaudRate = baud;
 	/* 字长(数据位+校验位)：8 */
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	/* 停止位：1个停止位 */
@@ -80,7 +58,7 @@ static void MODBUS_Config(u32 baud)
 	USART_Init(DEBUG_USARTx, &USART_InitStructure);
 
 	/* 嵌套向量中断控制器NVIC配置 */
-	MODBUS_NVIC_Configuration();
+	ModbusSvr_NVIC_Configuration(DEBUG_USART_IRQ);
 
 	/* 使能串口接收中断 */
 	USART_ITConfig(DEBUG_USARTx, USART_IT_RXNE, ENABLE);
@@ -100,9 +78,8 @@ void Modbus_init(void)
 	int tmp;
 
 	ModbusSvr_block_init(&mblock1);
-	tmp = mblock1.baudrate * 100;
+	tmp = mblock1.baudrate;
 
-	MODBUS_NVIC_Configuration();
 	MODBUS_Config(tmp);
 
 	sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", mblock1.station, tmp);
@@ -136,17 +113,6 @@ void ModbusTimer(void)
 //-------------------------------------------------------------------------------
 void DEBUG_USART_IRQHandler(void)
 {
-	u8 ch;
-
-	if (USART_GetITStatus(DEBUG_USARTx, USART_IT_RXNE) != RESET) //判断读寄存器是否非空
-	{
-		ch = USART_ReceiveData(DEBUG_USARTx); //将读寄存器的数据缓存到接收缓冲区里
-		ModbusSvr_isr(&mblock1, ch);
-	}
-
-	if (USART_GetITStatus(DEBUG_USARTx, USART_IT_TXE) != RESET)
-	{
-		USART_ITConfig(DEBUG_USARTx, USART_IT_TXE, DISABLE);
-	}
+	ModbusSvr_isr(&mblock1, DEBUG_USARTx);
 }
 //-----------------end of file---------------------------------------------

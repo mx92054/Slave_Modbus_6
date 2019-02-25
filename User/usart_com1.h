@@ -14,7 +14,6 @@
  */
 #define SLV1_USART_CLK RCC_APB2Periph_USART6
 #define SLV1_USART_APBxClkCmd RCC_APB2PeriphClockCmd
-#define SLV1_USART_BAUDRATE 9600 //´®¿Ú²¨ÌØÂÊ
 
 #define SLV1_USART_RX_GPIO_PORT GPIOC
 #define SLV1_USART_RX_GPIO_CLK RCC_AHB1Periph_GPIOC
@@ -38,7 +37,6 @@ void SLV1_init(void);
 void SLV1_task(void);
 void SLV1_Timer(void);
 void SLV1_USART_IRQHandler(void);
-
 #endif
 
 // --------------End of file------------------------

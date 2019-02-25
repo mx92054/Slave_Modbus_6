@@ -10,14 +10,17 @@
   *
   ******************************************************************************
   */
-
 #include "stm32f4xx.h"
 #include "SysTick.h"
-#include "Modbus_svr.h"
 #include "gpio.h"
 #include "bsp_innerflash.h"
 
+#include "Modbus_svr.h"
 #include "usart_com1.h"
+#include "usart_spd1.h"
+#include "usart_spd2.h"
+#include "usart_spd3.h"
+#include "usart_dam.h"
 
 int main(void)
 {
@@ -27,6 +30,10 @@ int main(void)
 	Modbus_init(); //上位机通信初始化
 
 	SLV1_init();
+	SLV2_init();
+	SLV3_init();
+	SLV4_init();
+	SLV5_init();
 
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
@@ -37,6 +44,10 @@ int main(void)
 	{
 		Modbus_task(); //通信出来进程
 		SLV1_task();
+		SLV2_task();
+		SLV3_task();
+		SLV4_task();
+		SLV5_task();
 
 		if (GetTimer(0))
 		{
@@ -46,8 +57,8 @@ int main(void)
 
 		if (GetTimer(1))
 		{
-			ModbusSvr_save_para(&mblock1, 1);
-			//ModbusSvr_save_para(&Blk_SLV1, 0);
+			ModbusSvr_save_para(&mblock1);
+			//ModbusSvr_save_para(&Blk_SLV1);
 		}
 	}
 }

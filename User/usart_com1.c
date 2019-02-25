@@ -7,35 +7,11 @@
 
 Modbus_block Blk_SLV1;
 //-------------------------------------------------------------------------------
-//	@brief	中断初始化
-//	@param	None
-//	@retval	None
-//-------------------------------------------------------------------------------
-static void SLV1_NVIC_Configuration(void)
-{
-	NVIC_InitTypeDef NVIC_InitStructure;
-
-	/* 嵌套向量中断控制器组选择 */
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
-	/* 配置USART为中断源 */
-	NVIC_InitStructure.NVIC_IRQChannel = SLV1_USART_IRQ;
-	/* 抢断优先级为1 */
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	/* 子优先级为1 */
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
-	/* 使能中断 */
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	/* 初始化配置NVIC */
-	NVIC_Init(&NVIC_InitStructure);
-}
-
-//-------------------------------------------------------------------------------
 //	@brief	串口初始化
 //	@param	None
 //	@retval	None
 //-------------------------------------------------------------------------------
-static void SLV1_Config(short baud)
+static void SLV1_Config(int baud)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
@@ -43,7 +19,7 @@ static void SLV1_Config(short baud)
 	RCC_AHB1PeriphClockCmd(SLV1_USART_RX_GPIO_CLK | SLV1_USART_TX_GPIO_CLK, ENABLE);
 
 	/* 使能 USART 时钟 */
-	RCC_APB2PeriphClockCmd(SLV1_USART_CLK, ENABLE);
+	SLV1_USART_APBxClkCmd(SLV1_USART_CLK, ENABLE);
 
 	/* GPIO初始化 */
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -68,7 +44,7 @@ static void SLV1_Config(short baud)
 
 	/* 配置串SLV1_USART 模式 */
 	/* 波特率设置：SLV1_USART_BAUDRATE */
-	USART_InitStructure.USART_BaudRate = baud * 100;
+	USART_InitStructure.USART_BaudRate = baud;
 	/* 字长(数据位+校验位)：8 */
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	/* 停止位：1个停止位 */
@@ -83,7 +59,7 @@ static void SLV1_Config(short baud)
 	USART_Init(USART_SLV1, &USART_InitStructure);
 
 	/* 嵌套向量中断控制器NVIC配置 */
-	SLV1_NVIC_Configuration();
+	ModbusSvr_NVIC_Configuration(SLV1_USART_IRQ);
 
 	/* 使能串口接收中断 */
 	USART_ITConfig(USART_SLV1, USART_IT_RXNE, ENABLE);
@@ -104,13 +80,12 @@ void SLV1_init(void)
 
 	ModbusSvr_block_init(&Blk_SLV1);
 	
-	tmp = Blk_SLV1.baudrate * 100;
+	tmp = Blk_SLV1.baudrate ;
 
-	SLV1_NVIC_Configuration();
 	SLV1_Config(tmp);
 
 	sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", Blk_SLV1.station, tmp);
-	//Usart_SendString(USART_SLV1, buf);
+	Usart_SendString(USART_SLV1, buf);
 }
 
 /*-------------------------------------------------------------------------------
@@ -140,17 +115,7 @@ void SLV1_Timer(void)
 //-------------------------------------------------------------------------------
 void SLV1_USART_IRQHandler(void)
 {
-	u8 ch;
+		ModbusSvr_isr(&Blk_SLV1, USART_SLV1);
 
-	if (USART_GetITStatus(USART_SLV1, USART_IT_RXNE) != RESET) //判断读寄存器是否非空
-	{
-		ch = USART_ReceiveData(USART_SLV1); //将读寄存器的数据缓存到接收缓冲区里
-		ModbusSvr_isr(&Blk_SLV1, ch);
-	}
-
-	if (USART_GetITStatus(USART_SLV1, USART_IT_TXE) != RESET)
-	{
-		USART_ITConfig(USART_SLV1, USART_IT_TXE, DISABLE);
-	}
 }
 //-----------------end of file---------------------------------------------

@@ -12,7 +12,7 @@
 
 typedef struct tag_ModbusModule
 {
-    short baudrate;
+    int baudrate;
     short station;
 
     short wReg[REG_LEN];   //保持存储器
@@ -24,21 +24,21 @@ typedef struct tag_ModbusModule
 
     u8 pos_msg;           //接受指针
     u8 frame_len;         //命令帧长度
-    u8 trans_len;         //相应帧长度
-    u8 bFrameStart;       //开始接受相应标志
+    u8 trans_len;         //响应帧长度
+    u8 bFrameStart;       //开始接受响应标志
     u8 uFrameInterval;    //帧间隙
     u8 errno;             //当前错误代号
     __IO u16 nMBInterval; //接受字符间隙计数器
     u8 bSaved;
+    u32 uLTick ;        //上一次接收成功的tick值 
 } Modbus_block;
 
 void ModbusSvr_block_init(Modbus_block *pblk); //初始化
-void ModbusSvr_normal_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx);
-void ModbusSvr_error_respose(Modbus_block *pblk, USART_TypeDef *pUSARTx);
 void ModbusSvr_task(Modbus_block *pblk, USART_TypeDef *pUSARTx);
-u8 ModbusSvr_Procotol_Chain(Modbus_block *pblk);
-void ModbusSvr_save_para(Modbus_block *pblk, int nWr);
-void ModbusSvr_isr(Modbus_block *pblk, u8 ch);
+u8 ModbusSvr_procotol_chain(Modbus_block *pblk);
+void ModbusSvr_save_para(Modbus_block *pblk);
+void ModbusSvr_isr(Modbus_block *pblk, USART_TypeDef *pUSARTx);
+void ModbusSvr_NVIC_Configuration(u8 nChn);
 
 u16 CRC16(const uint8_t *nData, uint8_t wLength);
 void Usart_SendByte(USART_TypeDef *pUSARTx, uint8_t ch);

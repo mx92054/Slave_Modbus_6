@@ -5,10 +5,12 @@
 #include "SysTick.h"
 #include "Modbus_svr.h"
 #include "usart_com1.h"
+#include "usart_spd1.h"
+#include "usart_spd2.h"
+#include "usart_spd3.h"
+#include "usart_dam.h"
 
 #define TIMER_NUM 10
-
-extern short wReg[];
 
 static __IO u32 TimingDelay = 0; // 延时定时器计数器
 __IO u16 TimePre[TIMER_NUM];	 //	计数器预置值
@@ -54,6 +56,11 @@ void SysTick_Handler(void)
 
 	ModbusTimer();
 	SLV1_Timer();
+	SLV2_Timer();
+	SLV3_Timer();
+	SLV4_Timer();
+	SLV5_Timer();
+
 	nlTicks++;
 
 	if (!TimingDelay)
