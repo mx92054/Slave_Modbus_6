@@ -38,6 +38,9 @@ int main(void)
 	SetTimer(0, 500);
 	SetTimer(1, 1000);
 
+	mblock1.wReg[10] = (SystemCoreClock & 0xFFFF0000) >> 16;
+	mblock1.wReg[11] = SystemCoreClock & 0x0000FFFF;
+
 	IWDG_Configuration(); //ø¥√≈π∑≥ı º
 
 	while (1)
