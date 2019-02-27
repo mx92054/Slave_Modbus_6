@@ -47,10 +47,6 @@ void SpdQueueInit(SpeedValueQueue *svq);
 void SpdQueueIn(SpeedValueQueue *svq, short ang, short tim);
 short SpdQueueAvgVal(SpeedValueQueue *svq);
 
-//--------------------------------------------------------------------
-void PIDMod_initialize(PID_Module *pPid, int no);  //PID模块初始化
-void PIDMod_step(PID_Module *pPid);                //PID模块计算
-void PIDMod_update_para(PID_Module *pPid); //PID模块参数更新
 
 #endif
 /*------------------end of file------------------------*/

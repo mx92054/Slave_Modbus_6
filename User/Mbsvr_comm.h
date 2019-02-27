@@ -12,11 +12,28 @@
 
 typedef struct tag_ModbusModule
 {
+    int SaveNo ;
     int baudrate;
     short station;
 
     short wReg[REG_LEN];   //保持存储器
     short coils[COIL_LEN]; //继电器存储器
+
+    int uCoilStartAdr ;
+    int uCoilLen;  //线圈数目
+    int uCoilEndAdr ;
+    short *ptrCoils; //保持线圈的地方  
+    
+    int uRomStartAdr ;
+    int uRomLen;   //只读寄存器长度
+    int uRomEndAdr ;
+    short *ptrRoms;  //只读寄存器的地方
+
+    int uRegStartAdr ;
+    int uRegLen;   //保持寄存器长度
+    int uRegEndAdr ;
+    short *ptrRegs;  //保持寄存器的地方
+
 
     u8 buffer[512]; //缓冲区
     u8 *tsk_buf;    //处理程序缓冲
@@ -30,9 +47,11 @@ typedef struct tag_ModbusModule
     u8 errno;             //当前错误代号
     __IO u16 nMBInterval; //接受字符间隙计数器
     u8 bSaved;
-    u32 uLTick ;        //上一次接收成功的tick值 
+    u32 uLTick; //上一次接收成功的tick值
 } Modbus_block;
 
+
+//----------------------------------------------------------------------------------
 void ModbusSvr_block_init(Modbus_block *pblk); //初始化
 void ModbusSvr_task(Modbus_block *pblk, USART_TypeDef *pUSARTx);
 u8 ModbusSvr_procotol_chain(Modbus_block *pblk);

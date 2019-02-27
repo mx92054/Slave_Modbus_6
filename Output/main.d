@@ -40,8 +40,9 @@
 ..\..\output\main.o: ..\..\User\SysTick.h
 ..\..\output\main.o: ..\..\User\gpio.h
 ..\..\output\main.o: ..\..\User\bsp_innerflash.h
-..\..\output\main.o: ..\..\User\Modbus_svr.h
+..\..\output\main.o: D:\Program\Keil\ARM\ARMCC\Bin\..\include\string.h
 ..\..\output\main.o: ..\..\User\Mbsvr_comm.h
+..\..\output\main.o: ..\..\User\Modbus_svr.h
 ..\..\output\main.o: ..\..\User\usart_com1.h
 ..\..\output\main.o: ..\..\User\usart_spd1.h
 ..\..\output\main.o: ..\..\User\usart_spd2.h

@@ -2,6 +2,7 @@
 #define __SLV5ODULE_USART__
 
 #include "stm32f4xx.h"
+#include "Mbsvr_comm.h"
 
 //COM5 Define
 
@@ -30,6 +31,7 @@
 #define SLV5_USART_IRQ UART4_IRQn
 #define SLV5_USART_IRQHandler UART4_IRQHandler
 
+extern Modbus_block Blk_SLV5;
 //----------------------------------------------------------------
 
 void SLV5_init(void);

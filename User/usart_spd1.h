@@ -2,6 +2,7 @@
 #define __SPEED1_USART__
 
 #include "stm32f4xx.h"
+#include "Mbsvr_comm.h"
 
 //COM2 Define
 
@@ -29,6 +30,7 @@
 #define SLV2_USART_IRQ USART3_IRQn
 #define SLV2_USART_IRQHandler USART3_IRQHandler
 
+extern Modbus_block Blk_SLV2;
 //------------------------------------------------
 void SLV2_init(void);
 void SLV2_task(void);

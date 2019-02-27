@@ -1,5 +1,5 @@
 #include "usart_com1.h"
-#include "Modbus_svr.h"
+#include "Mbsvr_comm.h"
 #include <stdio.h>
 #include "stm32f4xx_conf.h"
 #include "SysTick.h"
@@ -81,10 +81,17 @@ void SLV1_init(void)
 	ModbusSvr_block_init(&Blk_SLV1);
 	
 	tmp = Blk_SLV1.baudrate ;
+	Blk_SLV1.station = 1;
 
 	SLV1_Config(tmp);
 
-	sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", Blk_SLV1.station, tmp);
+	sprintf(buf, "\r\nStation No: %d, Baudrate: %d", Blk_SLV1.station, Blk_SLV1.baudrate);
+	Usart_SendString(USART_SLV1, buf);
+	sprintf(buf, "\r\nCoil Start adr: %4d, Len: %4d", Blk_SLV1.uCoilStartAdr, Blk_SLV1.uCoilLen);
+	Usart_SendString(USART_SLV1, buf);
+	sprintf(buf, "\r\nReg  Start adr: %4d, Len: %4d", Blk_SLV1.uRegStartAdr, Blk_SLV1.uRegLen);
+	Usart_SendString(USART_SLV1, buf);
+	sprintf(buf, "\r\nRom  Start adr: %4d, Len: %4d", Blk_SLV1.uRomStartAdr, Blk_SLV1.uRomLen);
 	Usart_SendString(USART_SLV1, buf);
 }
 

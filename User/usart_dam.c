@@ -1,5 +1,4 @@
 #include "usart_dam.h"
-#include "Mbsvr_comm.h"
 #include "SysTick.h"
 #include "stm32f4xx_conf.h"
 
@@ -77,13 +76,20 @@ void SLV5_init(void)
     int tmp;
 
     ModbusSvr_block_init(&Blk_SLV5);
+	Blk_SLV5.station = 5;
 
     tmp = Blk_SLV5.baudrate;
 
     SLV5_Config(tmp);
 
-    sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", Blk_SLV5.station, tmp);
-    Usart_SendString(USART_SLV5, buf);
+	sprintf(buf, "\r\nStation No: %d, Baudrate: %d", Blk_SLV5.station, Blk_SLV5.baudrate);
+	Usart_SendString(USART_SLV5, buf);
+	sprintf(buf, "\r\nCoil Start adr: %4d, Len: %4d", Blk_SLV5.uCoilStartAdr, Blk_SLV5.uCoilLen);
+	Usart_SendString(USART_SLV5, buf);
+	sprintf(buf, "\r\nReg  Start adr: %4d, Len: %4d", Blk_SLV5.uRegStartAdr, Blk_SLV5.uRegLen);
+	Usart_SendString(USART_SLV5, buf);
+	sprintf(buf, "\r\nRom  Start adr: %4d, Len: %4d", Blk_SLV5.uRomStartAdr, Blk_SLV5.uRomLen);
+	Usart_SendString(USART_SLV5, buf);
 }
 
 /*-------------------------------------------------------------------------------

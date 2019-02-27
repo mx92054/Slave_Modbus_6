@@ -82,7 +82,13 @@ void Modbus_init(void)
 
 	MODBUS_Config(tmp);
 
-	sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", mblock1.station, tmp);
+	sprintf(buf, "\r\nStation No: %d, Baudrate: %d", mblock1.station, mblock1.baudrate);
+	Usart_SendString(DEBUG_USARTx, buf);
+	sprintf(buf, "\r\nCoil Start adr: %4d, Len: %4d", mblock1.uCoilStartAdr, mblock1.uCoilLen);
+	Usart_SendString(DEBUG_USARTx, buf);
+	sprintf(buf, "\r\nReg  Start adr: %4d, Len: %4d", mblock1.uRegStartAdr, mblock1.uRegLen);
+	Usart_SendString(DEBUG_USARTx, buf);
+	sprintf(buf, "\r\nRom  Start adr: %4d, Len: %4d", mblock1.uRomStartAdr, mblock1.uRomLen);
 	Usart_SendString(DEBUG_USARTx, buf);
 }
 

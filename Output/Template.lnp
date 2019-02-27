@@ -46,12 +46,13 @@
 "..\..\output\modbus_svr.o"
 "..\..\output\systick.o"
 "..\..\output\bsp_innerflash.o"
-"..\..\output\mbsvr_comm.o"
-"..\..\output\usart_com1.o"
+"..\..\output\spd_comm.o"
+"..\..\output\usart_spd3.o"
 "..\..\output\usart_spd1.o"
 "..\..\output\usart_spd2.o"
-"..\..\output\usart_spd3.o"
 "..\..\output\usart_dam.o"
+"..\..\output\usart_com1.o"
+"..\..\output\mbsvr_comm.o"
 --library_type=microlib --strict --scatter "..\..\Output\Template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

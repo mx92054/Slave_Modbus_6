@@ -73,12 +73,19 @@ void SLV3_init(void)
     int tmp;
 
     ModbusSvr_block_init(&Blk_SLV3);
+	Blk_SLV3.station = 3;
 
     tmp = Blk_SLV3.baudrate;
     SLV3_Config(tmp);
 
-    sprintf(buf, " Program Initialize... Adr:%d, Baud:%d", Blk_SLV3.station, tmp);
-    Usart_SendString(USART_SLV3, buf);
+	sprintf(buf, "\r\nStation No: %d, Baudrate: %d", Blk_SLV3.station, Blk_SLV3.baudrate);
+	Usart_SendString(USART_SLV3, buf);
+	sprintf(buf, "\r\nCoil Start adr: %4d, Len: %4d", Blk_SLV3.uCoilStartAdr, Blk_SLV3.uCoilLen);
+	Usart_SendString(USART_SLV3, buf);
+	sprintf(buf, "\r\nReg  Start adr: %4d, Len: %4d", Blk_SLV3.uRegStartAdr, Blk_SLV3.uRegLen);
+	Usart_SendString(USART_SLV3, buf);
+	sprintf(buf, "\r\nRom  Start adr: %4d, Len: %4d", Blk_SLV3.uRomStartAdr, Blk_SLV3.uRomLen);
+	Usart_SendString(USART_SLV3, buf);
 }
 
 /*-------------------------------------------------------------------------------
